@@ -37,9 +37,21 @@
         <button id="btn-analyze" class="btn">Analyze</button>
         
         <div id="upi-result" class="card mt-15 hidden">
-            <h4>Analysis Result</h4>
-            <div id="upi-badges"></div>
+            <div class="flex justify-between items-center">
+                <h4>Analysis Result</h4>
+                <div id="source-badge"></div>
+            </div>
+            <div id="upi-badges" class="mt-5"></div>
             <p id="upi-explanation" class="mt-10 text-sm"></p>
+            
+            <div id="action-buttons" class="mt-15 flex gap-10">
+                <button id="btn-share-whatsapp" class="btn btn-secondary flex-1" style="background: #25D366; font-size: 11px;">
+                    Send Alert 📱
+                </button>
+                <a id="link-blockchain" href="#" target="_blank" class="btn btn-outline flex-1 text-center" style="font-size: 11px; text-decoration: none; padding: 8px 0;">
+                    View Proof ⛓️
+                </a>
+            </div>
         </div>
     </div>
 

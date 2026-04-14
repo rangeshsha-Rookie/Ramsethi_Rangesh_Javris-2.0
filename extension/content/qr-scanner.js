@@ -94,19 +94,38 @@ function showToast(result) {
     }
 }
 
+// Active MutationObserver to catch dynamic QR codes (e.g. in modals/popups)
+let scanTimeout;
+const observer = new MutationObserver((mutations) => {
+    clearTimeout(scanTimeout);
+    scanTimeout = setTimeout(() => {
+        // Only run scan if new images or canvases were added
+        const hasNewImages = mutations.some(m => 
+            Array.from(m.addedNodes).some(n => 
+                n.nodeName === 'IMG' || n.nodeName === 'CANVAS' || (n.querySelectorAll && n.querySelectorAll('img, canvas').length > 0)
+            )
+        );
+        if (hasNewImages) processImages();
+    }, 1000); // 1s debounce to save CPU
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
+
 // Initial sweep
 setTimeout(processImages, 1500);
 
 // Add a floating manual scan button as requested by PRD
 function injectFloatButton() {
     const btn = document.createElement("button");
-    btn.innerHTML = "🛡️ Scan QR";
-    btn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:99998; background:#1e293b; color:white; border:none; border-radius:30px; padding:10px 16px; font-weight:bold; cursor:pointer; box-shadow:0 4px 6px rgba(0,0,0,0.1);";
+    btn.innerHTML = "🛡️ PhishGuard Active";
+    btn.title = "PhishGuard is protecting you. Click to re-scan.";
+    btn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:99998; background:#1e293b; color:white; border:none; border-radius:30px; padding:10px 16px; font-weight:bold; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); font-size: 12px;";
     
     btn.onclick = () => {
-        // Trigger file input or prompt for camera
-        alert("Camera scan coming in Phase 3.5! PhishGuard is natively scanning all images automatically on the page for now.");
         processImages();
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Scanning... 🔍";
+        setTimeout(() => btn.innerHTML = originalText, 1000);
     };
     
     document.body.appendChild(btn);

@@ -108,12 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
         badgesContainer.appendChild(recBadge);
 
         // Add other flags
-        result.flags.forEach(flag => {
-            let badge = document.createElement('span');
-            badge.className = 'badge bg-danger'; // Usually flags represent danger
-            badge.textContent = flag;
-            badgesContainer.appendChild(badge);
-        });
+        // Handle WhatsApp Sharing
+        document.getElementById('btn-share-whatsapp').onclick = () => {
+            const vpa = result.parsed.pa || "Unknown";
+            const text = `🚨 *PhishGuard India Alert* 🚨\n\nI just detected a suspicious UPI payment to *${vpa}*.\n\nPhishGuard flagged this as a threat. Please stay safe and don't pay unknown handles!\n\nCheck for yourself: https://ramsethi-rangesh-javris-2-0.vercel.app`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+        };
+
+        // Handle Blockchain Link (Dynamic)
+        const blockchainLink = document.getElementById('link-blockchain');
+        blockchainLink.href = `https://amoy.polygonscan.com/address/0xF777B6D8a0B6e000000000000000000000000000`; // Link to the registry
     });
 
     // Settings logic: Load key

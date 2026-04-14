@@ -82,8 +82,18 @@
         <p>Proactive, AI-Powered Protection against UPI Frauds & URL Phishing natively on your device. Secured by Polygon BlockChain and verified with NVIDIA NIM.</p>
         
         <div class="btn-group">
-            <a href="https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0" class="btn btn-primary" target="_blank">View Website Version on GitHub</a>
-            <a href="/api/check-vpa?pa=test@upi" class="btn btn-outline" target="_blank">Test Live API</a>
+            <a href="https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0" class="btn btn-primary" target="_blank">Repository</a>
+            <a href="https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0/blob/main/docs/PRD.md" class="btn btn-outline" target="_blank">Full PRD</a>
+        </div>
+
+        <div style="margin-top: 60px; text-align: left; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
+            <h3 style="margin-bottom: 15px; color: var(--primary);">Developer SDK & API</h3>
+            <p style="font-size: 1rem; margin-bottom: 20px;">Integrate PhishGuard's UPI Fraud Detection into your own payment gateway with just one line of code.</p>
+            <pre style="background: #000; padding: 20px; border-radius: 10px; overflow-x: auto; color: #00f2fe; font-family: monospace; font-size: 0.9rem; border: 1px solid #222;">
+// Verify a VPA handle in real-time
+fetch('https://ramsethi-rangesh-javris-2-0.vercel.app/api/check-vpa?pa=scammer@upi')
+  .then(res => res.json())
+  .then(data => console.log(data.riskScore));</pre>
         </div>
 
         <div class="api-status">
