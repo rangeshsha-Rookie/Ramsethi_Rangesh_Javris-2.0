@@ -55,76 +55,73 @@ st.markdown(f"""
   
   [data-testid="stHeader"] {{ background: rgba(0,0,0,0) !important; }}
 
-  /* 2. FORCE ALL HEADINGS TO BRIGHT WHITE */
-  h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2, [data-testid="stMarkdownContainer"] h3 {{
+  /* 2. Headlines */
+  h1, h2, h3, h4, [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2, [data-testid="stMarkdownContainer"] h3 {{
     color: {COLORS['text_bright']} !important;
     font-weight: 700 !important;
   }}
 
-  /* 3. SIDEBAR & WIDGET VISIBILITY (The Critical Fix) */
+  /* 3. SIDEBAR & RADIANT RADIO FIX */
   [data-testid="stSidebar"] {{ 
     background-color: #010409 !important; 
     border-right: 1px solid {COLORS['border']}; 
   }}
   
-  /* Fix Radio Button Labels */
-  [data-testid="stWidgetLabel"] p, label, .st-at, .st-ae, .st-af {{
+  /* Force Radio Button Visibility */
+  div[data-testid="stRadio"] label {{
     color: {COLORS['text_bright']} !important;
-    font-size: 1rem !important;
-    font-weight: 500 !important;
+    margin-bottom: 8px !important;
+  }}
+  
+  /* The Outer Circle */
+  div[aria-label="Intelligence Modules"] div[data-testid="stMarkdownContainer"] p {{
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem !important;
   }}
 
-  /* 4. INPUTS & TEXTAREAS - DEFINED & SCAN-ABLE */
-  input, textarea, [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {{
+  /* Fix for the actual radio circles */
+  div[data-testid="stRadio"] div[role="radiogroup"] [data-testid="stWidgetLabel"] {{
+    color: white !important;
+  }}
+  
+  /* Target the circles (markers) */
+  .st-at, .st-ae, .st-af, div[role="radiogroup"] label div[data-testid="stMarker"] {{
+    border: 2px solid {COLORS['accent']} !important;
+  }}
+  
+  /* Target the selected state marker */
+  div[role="radiogroup"] label[data-checked="true"] div[data-testid="stMarker"] {{
+    background-color: {COLORS['accent']} !important;
+    box-shadow: 0 0 10px {COLORS['accent']} !important;
+  }}
+
+  /* 4. INPUTS */
+  input, textarea {{
     background-color: #0D1117 !important;
     color: #FFFFFF !important;
     border: 1px solid {COLORS['border']} !important;
     border-radius: 6px !important;
-    padding: 10px !important;
   }}
   
-  /* 5. CODE BLOCKS - THEME CONSISTENCY */
-  [data-testid="stCodeBlock"] {{
-    background-color: #010409 !important;
-    border: 1px solid {COLORS['border']} !important;
-    border-radius: 8px !important;
-  }}
-  code {{ font-family: 'JetBrains Mono', monospace !important; color: #79C0FF !important; background: transparent !important; }}
-  
-  /* 6. CARDS & HERO BLOCKS */
+  /* 5. CODE & CARDS */
+  [data-testid="stCodeBlock"] {{ background-color: #010409 !important; border: 1px solid {COLORS['border']} !important; }}
   .pg-hero {{
-    border: 1px solid {COLORS['border']};
-    background-color: {COLORS['surface']};
+    border: 1px solid {COLORS['border']}; background-color: {COLORS['surface']};
     border-radius: 12px; padding: 30px; margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   }}
-  .pg-hero h1 {{ color: #FFF !important; margin: 0 !important; font-size: 2.5rem !important; }}
-  .pg-hero p {{ color: {COLORS['text_main']} !important; margin-top: 10px !important; font-size: 1.1rem !important; }}
 
-  /* 7. DATA TABLES & STATUS */
-  [data-testid="stDataFrame"] {{ border: 1px solid {COLORS['border']}; border-radius: 8px; }}
-  .pg-pill {{
-    display: inline-block; border-radius: 6px; padding: 6px 12px;
-    font-weight: 700; font-size: 0.85rem; border: 1px solid transparent; text-transform: uppercase;
-  }}
+  /* 6. STATUS & BUTTONS */
+  .pg-pill {{ display: inline-block; border-radius: 6px; padding: 6px 12px; font-weight: 700; border: 1px solid transparent; }}
   .pg-safe {{ background: rgba(63, 185, 80, 0.1); color: {COLORS['safe']} !important; border-color: {COLORS['safe']}; }}
   .pg-block {{ background: rgba(248, 81, 73, 0.1); color: {COLORS['block']} !important; border-color: {COLORS['block']}; }}
-
-  /* 8. VERSIONING MARK */
-  .v-badge {{
-    background-color: #21262D;
-    color: {COLORS['accent']};
-    border: 1px solid {COLORS['border']};
-    padding: 2px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }}
-
-  .stButton > button {{ 
-    border-radius: 6px; background-color: #21262D; color: white !important; 
-    border: 1px solid {COLORS['border']}; font-weight: 700; width: 100%;
-  }}
+  
+  .stButton > button {{ border-radius: 6px; background-color: #21262D; color: white !important; border: 1px solid {COLORS['border']}; font-weight: 700; }}
+  .stButton > button:hover {{ border-color: {COLORS['accent']}; box-shadow: 0 0 10px {COLORS['accent']}; }}
+  
+  .v-badge {{ background-color: #21262D; color: {COLORS['accent']}; border: 1px solid {COLORS['border']}; padding: 2px 12px; border-radius: 20px; font-size: 0.75rem; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -144,7 +141,7 @@ def gauge_figure(score, title):
 
 # --- Sidebar ---
 with st.sidebar:
-    st.image(os.path.join(os.path.dirname(__file__), "pg_logo.png"), width=120)
+    st.image(os.path.join(os.path.dirname(__file__), "pg_logo.png"), width=100)
     st.markdown("<p style='text-align: center;'><span class='v-badge'>v2.0.0-PRO</span></p>", unsafe_allow_html=True)
     st.divider()
     page = st.radio("Intelligence Modules", ["Network Forensic Hub", "UPI Fraud Analyzer", "Threat Intelligence Feed", "Enterprise API Docs"])
@@ -154,37 +151,35 @@ def render_hero(title, subtitle):
 
 if page == "Network Forensic Hub":
     render_hero("Network Forensic Hub", "Forensic analysis via the 17-feature Titan Engine.")
-    url = st.text_input("Deep-Scan Target (URL)", placeholder="https://secure-login.bank")
+    url = st.text_input("Analyze Domain", placeholder="https://secure-login.bank")
     if url:
-        if st.button("Initialize Forensic Scan"):
+        if st.button("Deep Forensic Scan"):
             score = sum(ord(c) for c in url) % 100
             verdict = "BLOCK" if score > 60 else "SAFE"
             st.markdown(f'<div class="pg-pill {"pg-block" if verdict == "BLOCK" else "pg-safe"}">VERDICT: {verdict}</div>', unsafe_allow_html=True)
             c1, c2 = st.columns(2)
-            c1.plotly_chart(gauge_figure(score, "Risk Probability"), use_container_width=True)
-            c2.plotly_chart(radar_figure(score, "Threat Vector Matrix"), use_container_width=True)
+            c1.plotly_chart(gauge_figure(score, "Risk Severity"), use_container_width=True)
+            c2.plotly_chart(radar_figure(score, "Forensic DNA Matrix"), use_container_width=True)
 
 elif page == "UPI Fraud Analyzer":
-    render_hero("UPI Fraud Analyzer", "Detecting behavioral fraud patterns and merchant trust.")
-    vpa = st.text_input("VPA Intent / URL", "upi://pay?pa=scammer@sbi&am=49999")
+    render_hero("UPI Fraud Analyzer", "Detecting VPA threshold evasion and merchant trust.")
+    vpa = st.text_input("UPI ID / Intent", "upi://pay?pa=scammer@sbi&am=49999")
     if vpa:
-        if st.button("Verify Merchant Trust"):
+        if st.button("Validate Merchant"):
             score = 94 if "49" in vpa else 12
             st.markdown(f'<div class="pg-pill {"pg-block" if score > 50 else "pg-safe"}">REPUTATION: {"MALICIOUS" if score > 50 else "TRUSTED"}</div>', unsafe_allow_html=True)
-            st.plotly_chart(gauge_figure(score, "Transaction Risk Score"), use_container_width=True)
+            st.plotly_chart(gauge_figure(score, "Entity Risk Score"), use_container_width=True)
 
 elif page == "Threat Intelligence Feed":
     render_hero("Threat Intelligence", "Live geospatial fraud analytics across India corridor.")
-    st.markdown("### 🇮🇳 Live Fraud Hotspots")
     df = pd.DataFrame({"latitude": [28.6, 19.1, 13.0, 22.5, 17.4], "longitude": [77.2, 72.8, 80.3, 88.4, 78.5]})
     st.map(df)
-    st.markdown("### 🚨 Community Intelligence Hub")
     feed = pd.DataFrame({"Target": ["sbi-secure.in", "fake-amazon.co", "upi@scam"], "Type": ["Phishing", "Fraud", "UPI"], "Status": ["On-Chain Proof"] * 3})
     st.dataframe(feed, use_container_width=True)
 
 elif page == "Enterprise API Docs":
     render_hero("Enterprise B2B API", "Integrate zero-trust verification into payment gateways.")
-    st.markdown("### Node.js Integration Example")
+    st.markdown("### Node.js Integration Snippet")
     st.code("const phishguard = require('@phishguard/sdk');\n\nasync function checkout(vpa) {\n  const result = await phishguard.verifyVPA(vpa);\n  if(result.riskScore > 50) throw new Error('BLOCK');\n}", language="javascript")
     st.markdown("### Forensic Response Schema")
     st.code('{\n  "verdict": "BLOCK",\n  "score": 92.4,\n  "evidence": "PG-TX-8829-AMOY"\n}', language="json")
