@@ -1,0 +1,15 @@
+streamlit==1.35.0
+pandas
+numpy
+xgboost
+scikit-learn
+plotly
+pyzbar
+Pillow
+pymongo
+tldextract
+python-whois
+beautifulsoup4
+joblib
+fuzzywuzzy
+python-Levenshtein

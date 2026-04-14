@@ -1,0 +1,19 @@
+{
+  "name": "phishguard-blockchain",
+  "version": "1.0.0",
+  "description": "Smart contracts for PhishGuard India fraud registry",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy:amoy": "hardhat run scripts/deploy.js --network amoy"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "ethers": "^6.13.0",
+    "hardhat": "^2.22.4"
+  }
+}
