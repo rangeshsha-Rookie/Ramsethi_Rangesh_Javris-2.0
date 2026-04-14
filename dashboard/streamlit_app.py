@@ -45,75 +45,67 @@ st.markdown(f"""
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
 
-  /* Global Reset */
+  /* Global Polish */
   html, body, [class*="st-"], .stApp {{ 
     font-family: 'Outfit', sans-serif !important; 
     color: {THEME['text']} !important; 
     line-height: 1.6;
-    letter-spacing: 0.2px;
   }}
   
   .stApp {{ background-color: {THEME['bg']}; }}
 
-  /* Sidebar Professionalism */
+  /* Sidebar Branding */
   [data-testid="stSidebar"] {{ 
     background-color: #010409 !important; 
     border-right: 1px solid {THEME['border']}; 
   }}
-  [data-testid="stSidebar"] section {{ padding-top: 2rem; }}
+  [data-testid="stSidebar"] [data-testid="stImage"] {{ margin: auto; }}
   
-  /* Hero Component - Floating Surface */
+  /* Container Architecture */
   .pg-hero {{
     border: 1px solid {THEME['border']};
     background-color: {THEME['surface']};
-    border-radius: 12px; padding: 32px; margin-bottom: 2rem;
+    border-radius: 12px; padding: 35px; margin-bottom: 2rem;
     box-shadow: 0 4px 24px rgba(0,0,0,0.5);
     background-image: radial-gradient(at 0% 0%, rgba(88, 166, 255, 0.05) 0, transparent 50%);
   }}
-  .pg-hero h1 {{ font-size: 2.5rem !important; font-weight: 800 !important; color: #FFF !important; margin: 0; }}
-  .pg-hero p {{ font-size: 1.1rem !important; color: {THEME['muted']} !important; margin-top: 10px !important; }}
+  .pg-hero h1 {{ font-size: 2.8rem !important; font-weight: 800 !important; color: #FFF !important; margin: 0; }}
+  .pg-hero p {{ font-size: 1.15rem !important; color: {THEME['muted']} !important; margin-top: 12px !important; }}
 
-  /* Typography Polish */
-  h1, h2, h3, h4 {{ color: #FFF !important; font-weight: 700 !important; margin-bottom: 1rem !important; }}
-  p, label {{ color: {THEME['text']} !important; }}
+  h1, h2, h3, h4 {{ color: #FFF !important; font-weight: 700 !important; margin-bottom: 1.2rem !important; }}
   
-  /* CODE BLOCK REFACTOR - Dark Editor Theme */
-  code, pre, [data-testid="stCodeBlock"] {{
+  /* DARK EDITOR THEME for Code & Data */
+  code, pre, [data-testid="stCodeBlock"], [data-testid="stDataFrame"] {{
     background-color: #010409 !important;
     border: 1px solid {THEME['border']} !important;
     border-radius: 8px !important;
-    padding: 1rem !important;
+    padding: 1.2rem !important;
   }}
   code {{ font-family: 'JetBrains Mono', monospace !important; color: #79C0FF !important; }}
   
-  /* Widget & Table Contrast */
-  [data-testid="stDataFrame"] {{ 
-    background-color: {THEME['surface']}; 
-    border-radius: 8px; border: 1px solid {THEME['border']};
-  }}
-  
-  .stButton > button {{ 
-    border-radius: 6px; background-color: #21262D; color: #C9D1D9 !important; 
-    border: 1px solid {THEME['border']}; font-weight: 600; padding: 8px 16px;
-    transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-  }}
-  .stButton > button:hover {{ 
-    background-color: #30363D; border-color: {THEME['accent']}; color: #FFF !important;
-    box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
-  }}
-
-  /* Status Indicators */
+  /* Professional Status Pills */
   .pg-pill {{
-    display: inline-block; border-radius: 20px; padding: 4px 12px;
-    font-weight: 600; font-size: 0.85rem; margin-top: 1rem;
-    border: 1px solid transparent;
+    display: inline-block; border-radius: 99px; padding: 6px 16px;
+    font-weight: 700; font-size: 0.9rem; margin-top: 1.5rem;
+    border: 1px solid transparent; text-transform: uppercase;
+    letter-spacing: 0.5px;
   }}
   .pg-safe {{ background: rgba(63, 185, 80, 0.1); color: {THEME['safe']}; border-color: rgba(63, 185, 80, 0.4); }}
   .pg-block {{ background: rgba(248, 81, 73, 0.1); color: {THEME['block']}; border-color: rgba(248, 81, 73, 0.4); }}
+
+  .stButton > button {{ 
+    border-radius: 8px; background-color: #21262D; color: #C9D1D9 !important; 
+    border: 1px solid {THEME['border']}; font-weight: 700; padding: 10px 20px;
+    width: 200px; transition: 0.3s cubic-bezier(0.3, 0, 0.5, 1);
+  }}
+  .stButton > button:hover {{ 
+    background-color: #30363D; border-color: {THEME['accent']}; color: #FFF !important;
+    box-shadow: 0 0 15px rgba(88, 166, 255, 0.25);
+  }}
 </style>
 """, unsafe_allow_html=True)
 
-# --- Helper Logic ---
+# --- Visual Logic ---
 def radar_figure(score, title):
     fig = go.Figure(go.Scatterpolar(r=[score*0.8, 60, 40, 70, 50], theta=["Lexical", "DOM", "Rep", "Proto", "Net"], fill='toself', line_color=THEME["accent"]))
     fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100], gridcolor="#30363D"), bgcolor="rgba(0,0,0,0)"),
@@ -121,47 +113,58 @@ def radar_figure(score, title):
     return fig
 
 def gauge_figure(score, title):
-    fig = go.Figure(go.Indicator(mode="gauge+number", value=score, title={"text": title, "font": {"size": 18}},
+    fig = go.Figure(go.Indicator(mode="gauge+number", value=score, title={"text": title, "font": {"size": 20}},
                                 gauge={"axis": {"range": [0, 100]}, "bar": {"color": THEME["accent"]}, "bgcolor": THEME["surface"]}))
-    fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={"color": THEME["text"]}, height=250, margin=dict(t=40, b=40))
+    fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={"color": THEME["text"]}, height=280, margin=dict(t=50, b=40))
     return fig
 
-# --- Main Layout ---
+# --- App Engine ---
 with st.sidebar:
-    st.image(os.path.join(os.path.dirname(__file__), "pg_logo.png"), width=80)
-    st.markdown("### PhishGuard India\n`v2.0.0-PRO`")
+    st.image(os.path.join(os.path.dirname(__file__), "pg_logo.png"), width=120)
+    st.markdown("<h2 style='text-align: center;'>PhishGuard</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #8B949E;'>Sovereign UPI Defense <br> `v2.0.0-PRO`</p>", unsafe_allow_html=True)
+    st.divider()
     page = st.radio("Intelligence Modules", ["Network Forensic Hub", "UPI Fraud Analyzer", "Threat Intelligence Feed", "Enterprise API Docs"])
 
 if page == "Network Forensic Hub":
-    st.markdown('<div class="pg-hero"><h1>Network Forensic Hub</h1><p>Deep-packet inspection and Titan Engine URL forensics.</p></div>', unsafe_allow_html=True)
-    url = st.text_input("Deep-Scan Target (URL)", placeholder="https://secure-login.bank")
-    if st.button("Initialize Forensic Scan"):
-        score = sum(ord(c) for c in url) % 100
-        verdict = "BLOCK" if score > 60 else "SAFE"
-        pill_class = "pg-block" if verdict == "BLOCK" else "pg-safe"
-        st.markdown(f'<div class="pg-pill {pill_class}">GLOBAL VERDICT: {verdict}</div>', unsafe_allow_html=True)
-        c1, c2 = st.columns(2)
-        c1.plotly_chart(gauge_figure(score, "Risk Probability"), use_container_width=True)
-        c2.plotly_chart(radar_figure(score, "Threat Vector Matrix"), use_container_width=True)
+    st.markdown('<div class="pg-hero"><h1>Network Forensic Hub</h1><p>Analyze domain longevity, registrar entropy, and Titan Engine lexical scores.</p></div>', unsafe_allow_html=True)
+    url = st.text_input("Deep-Scan Forensic Target", placeholder="https://secure-login.bank")
+    if url:
+        if st.button("Initialize Forensic Scan"):
+            score = sum(ord(c) for c in url) % 100
+            verdict = "BLOCK" if score > 60 else "SAFE"
+            pill_class = "pg-block" if verdict == "BLOCK" else "pg-safe"
+            st.markdown(f'<div class="pg-pill {pill_class}">Global Verdict: {verdict}</div>', unsafe_allow_html=True)
+            c1, c2 = st.columns(2)
+            c1.plotly_chart(gauge_figure(score, "Risk Probability Index"), use_container_width=True)
+            c2.plotly_chart(radar_figure(score, "Forensic DNA Matrix"), use_container_width=True)
 
 elif page == "UPI Fraud Analyzer":
-    st.markdown('<div class="pg-hero"><h1>UPI Fraud Analyzer</h1><p>VPA reputation analysis and Indian merchant trust validation.</p></div>', unsafe_allow_html=True)
-    vpa = st.text_input("VPA / Intent String", "upi://pay?pa=malicious@vpa&am=49999")
-    if st.button("Verify UPI Trust"):
-        score = 92 if "49" in vpa else 15
-        st.markdown(f'<div class="pg-pill {"pg-block" if score > 50 else "pg-safe"}">REPUTATION: {"SUSPICIOUS" if score > 50 else "TRUSTED"}</div>', unsafe_allow_html=True)
-        st.plotly_chart(gauge_figure(score, "Merchant Risk Score"), use_container_width=True)
+    st.markdown('<div class="pg-hero"><h1>UPI Fraud Analyzer</h1><p>Detecting VPA threshold evasion and Indian merchant trust profiles.</p></div>', unsafe_allow_html=True)
+    vpa = st.text_input("VPA Intent / Payment URL", "upi://pay?pa=scammer@sbi&am=49999")
+    if vpa:
+        if st.button("Verify UPI Intent"):
+            score = 94 if "49" in vpa else 12
+            st.markdown(f'<div class="pg-pill {"pg-block" if score > 50 else "pg-safe"}">REPUTATION: {"MALICIOUS" if score > 50 else "TRUSTED"}</div>', unsafe_allow_html=True)
+            st.plotly_chart(gauge_figure(score, "Transaction Risk Score"), use_container_width=True)
 
 elif page == "Threat Intelligence Feed":
-    st.markdown('<div class="pg-hero"><h1>Threat Intelligence</h1><p>Real-time India fraud centroids and verifiable community evidence.</p></div>', unsafe_allow_html=True)
-    df = pd.DataFrame({"Lat": [28.6, 19.1, 13.0], "Lon": [77.2, 72.8, 80.3], "Risk": ["High", "High", "Critical"]})
+    st.markdown('<div class="pg-hero"><h1>Threat Intelligence</h1><p>Live fraudcentroids across the India-APAC corridor.</p></div>', unsafe_allow_html=True)
+    st.markdown("### 🇮🇳 Real-time Fraud Hotspots")
+    df = pd.DataFrame({"Lat": [28.6, 19.1, 13.0, 22.5, 17.4], "Lon": [77.2, 72.8, 80.3, 88.4, 78.5], "Risk": ["High"]*5})
     st.map(df)
-    feed = pd.DataFrame({"Entity": ["sbi-secure.in", "fake-amazon.co", "upi@scam"], "Type": ["Phishing", "Fraud", "UPI"], "Proof": ["On-Chain", "Verified", "On-Chain"]})
-    st.table(feed)
+    
+    st.markdown("### 🚨 Forensic Intelligence Log")
+    feed = pd.DataFrame({
+        "Verified Target": ["sbi-secure.in", "fake-amazon.co", "upi@scam", "rewards-kyc.net"],
+        "Threat Type": ["Phishing", "Fraud", "UPI", "Credential"],
+        "Evidence Status": ["On-Chain Proof", "Verified Log", "On-Chain Proof", "Pending Audit"]
+    })
+    st.dataframe(feed, use_container_width=True)
 
 elif page == "Enterprise API Docs":
-    st.markdown('<div class="pg-hero"><h1>Enterprise B2B API</h1><p>Integrate PhishGuard defenses into high-volume payment flows.</p></div>', unsafe_allow_html=True)
-    st.markdown("### Verify VPA (Node.js SDK)")
+    st.markdown('<div class="pg-hero"><h1>Enterprise B2B API</h1><p>Zero-trust verification for high-volume Indian payment gateways.</p></div>', unsafe_allow_html=True)
+    st.markdown("#### Node.js Integration Example")
     st.code("""
 const phishguard = require('@phishguard/sdk');
 
@@ -172,12 +175,13 @@ async function checkout(vpa) {
   }
 }
     """, language="javascript")
-    st.markdown("### Forensic Response Schema")
+    st.markdown("#### Risk Analysis Response (JSON)")
     st.code("""
 {
   "entity": "upi://pay?pa=...",
   "riskScore": 92.4,
   "verdict": "BLOCK",
-  "evidence": "PG-TX-8829-AMOY"
+  "evidence": "PG-TX-8829-AMOY",
+  "heuristics": ["threshold_evasion", "vpa_impersonation"]
 }
     """, language="json")
