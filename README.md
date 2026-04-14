@@ -3,13 +3,23 @@
   <br/><br/>
   <h1>🛡️ PhishGuard India</h1>
   <p><b>Proactive, AI-Powered Protection against UPI Frauds & URL Phishing natively on your device.</b></p>
+
+  [**🌐 Visit Live Website**](https://ramsethi-rangesh-javris-2-0.vercel.app) | [**📜 Read Documentation**](./docs/) | [**📺 Watch Demo**](https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0)
   
+  <br/>
+
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
   [![Made with NVIDIA NIM](https://img.shields.io/badge/AI-NVIDIA%20NIM-green.svg)]()
-  [![Chrome Extension](https://img.shields.io/badge/Extension-Chrome-blue.svg)]()
+  [![Vercel Cloud](https://img.shields.io/badge/Deploy-Vercel-black.svg)]()
+  [![MongoDB Atlas](https://img.shields.io/badge/Database-MongoDB-green.svg)]()
 </div>
 
 ---
+
+## ⚡ Judge's Quick Test (Live)
+> [!IMPORTANT]
+> You can test our Live Cloud API right now without installing anything:
+> [**Click here to test Live VPA Fraud Scan**](https://ramsethi-rangesh-javris-2-0.vercel.app/api/check-vpa?pa=test@upi) — *Returns JSON from our Live Registry.*
 
 ## 📺 Project Demo & Visuals
 
@@ -74,6 +84,9 @@ Our extension seamlessly hooks into the active webpage. Using `jsQR`, it searche
 * **Machine Learning:** Scikit-Learn, XGBoost, ONNXMLTools
 * **In-Memory Inference:** ONNXRuntime-Web
 * **QR Processing:** jsQR
+* **Database:** MongoDB Atlas (Cloud Registry)
+* **Backend:** Vercel Serverless (Node.js)
+* **API Routing:** Vercel.json (CORS Enabled)
 
 ---
 
@@ -114,8 +127,12 @@ Integrated **NVIDIA Llama 3.1** to provide human-friendly Hinglish warnings.
 *   *Location:* [`/extension/background/nvidia-explainer.js`](./extension/background/nvidia-explainer.js)
 
 ### ☁️ Phase 7: Vercel Cloud Backend
-Serverless infrastructure for community fraud reporting.
+Integrated the centralized community fraud registry with MongoDB Atlas and serverless Node.js.
 *   *Location:* [`/api`](./api/)
+
+### 🏁 Phase 8: Project Consolidation & Live Sync
+Unified all 8 phases into a professional root structure and enabled live production syncing between the extension and Vercel.
+*   *Status:* ✅ **COMPLETED & PRODUCTION READY**
 
 ---
 
