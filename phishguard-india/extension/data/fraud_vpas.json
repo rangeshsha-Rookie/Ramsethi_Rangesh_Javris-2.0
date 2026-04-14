@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "vpa": "fraud@ybl",
+    "reportCount": 15,
+    "firstSeen": "2025-01-15",
+    "tags": ["kyc_scam", "fake_bank"]
+  }
+]

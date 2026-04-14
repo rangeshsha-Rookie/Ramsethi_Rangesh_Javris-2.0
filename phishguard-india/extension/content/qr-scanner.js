@@ -1,213 +1,115 @@
-/* eslint-disable no-console */
-/* global jsQR */
+// QR Scanner content script
+// Injected into every page
 
-(() => {
-  const SCAN_INTERVAL = 3000; // Scan images every 3 seconds
-  const scannedImages = new Set();
+console.log("PhishGuard: QR Scanner Active");
 
-  /**
-   * Scans a single image for QR codes
-   */
-  const scanImage = (img) => {
-    if (!img.complete || img.naturalWidth < 50 || img.naturalHeight < 50) return;
-    if (scannedImages.has(img.src)) return;
+function processImages() {
+    const images = Array.from(document.querySelectorAll('img')).filter(img => 
+        img.naturalWidth > 50 && img. प्राकृतिकHeight > 50 && !img.dataset.phishguardScanned
+    );
 
-    try {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-      if (code) {
-        console.log("PhishGuard: QR detected in image", code.data);
-        handleDetectedQR(code.data);
-        scannedImages.add(img.src); // Only alert once per image URL
-      }
-    } catch (err) {
-      // Cross-origin images will throw security error here
-      // We log silently as many images will be cross-origin
-    }
-  };
-
-  /**
-   * Handles decoded QR data
-   */
-  const handleDetectedQR = async (data) => {
-    if (data.startsWith("upi://")) {
-      if (window.PhishGuard && window.PhishGuard.analyzeUPIString) {
-        const result = await window.PhishGuard.analyzeUPIString(data);
-        chrome.runtime.sendMessage({ type: "UPI_SCAN_RESULT", result });
-      }
-    } else if (data.startsWith("http")) {
-      chrome.runtime.sendMessage({ type: "URL_SCAN_REQUEST", url: data });
-    }
-  };
-
-  const scannedImages = new Set();
-
-  /**
-   * Scans all images on the page
-   */
-  const scanAllImages = () => {
-    const images = document.querySelectorAll("img");
     images.forEach(img => {
-      // Use src as key, but also check if it's already scanned
-      if (img.src && !scannedImages.has(img.src)) {
-        scanImage(img).then(result => {
-          if (result) {
-            handleScanResult(result);
-          }
-          scannedImages.add(img.src);
-        }).catch(() => {
-          // Silent fail for individual image scans
-        });
-      }
-    });
-  };
-
-  /**
-   * Injects the floating scan button
-   */
-  const injectFloatingButton = () => {
-    if (document.getElementById("phishguard-scan-btn")) return;
-
-    const btn = document.createElement("div");
-    btn.id = "phishguard-scan-btn";
-    btn.innerHTML = "🛡️";
-    btn.title = "PhishGuard India: Manual QR Scan";
-    btn.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background: #1e293b;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 999999;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    `;
-
-    btn.onmouseover = () => { btn.style.transform = "scale(1.1)"; };
-    btn.onmouseout = () => { btn.style.transform = "scale(1.0)"; };
-    btn.onclick = toggleCameraOverlay;
-
-    document.body.appendChild(btn);
-  };
-
-  /**
-   * Toggles the live camera scan overlay
-   */
-  let overlay = null;
-  let videoStream = null;
-
-  const toggleCameraOverlay = async () => {
-    if (overlay) {
-      closeOverlay();
-      return;
-    }
-
-    try {
-      videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-      
-      overlay = document.createElement("div");
-      overlay.style.cssText = `
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8);
-        z-index: 1000000;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-family: sans-serif;
-      `;
-
-      const video = document.createElement("video");
-      video.srcObject = videoStream;
-      video.setAttribute("playsinline", true);
-      video.style.width = "80%";
-      video.style.maxWidth = "400px";
-      video.style.borderRadius = "10px";
-      video.play();
-
-      const closeBtn = document.createElement("button");
-      closeBtn.innerText = "Close";
-      closeBtn.style.cssText = "margin-top: 20px; padding: 10px 20px; cursor: pointer;";
-      closeBtn.onclick = closeOverlay;
-
-      const info = document.createElement("div");
-      info.innerText = "Align QR code within the camera view";
-      info.style.marginBottom = "10px";
-
-      overlay.appendChild(info);
-      overlay.appendChild(video);
-      overlay.appendChild(closeBtn);
-      document.body.appendChild(overlay);
-
-      // Start scan loop
-      const scanLoop = () => {
-        if (!overlay) return;
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          const canvas = document.createElement("canvas");
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-          if (code) {
-            console.log("PhishGuard: Live QR detected", code.data);
-            handleDetectedQR(code.data);
-            closeOverlay();
-            return;
-          }
+        img.dataset.phishguardScanned = "true";
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // Requires jsQR loaded in content scripts via manifest
+            if (typeof jsQR !== 'undefined') {
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                if (code) {
+                    handleQRResult(code.data);
+                }
+            }
+        } catch (e) {
+            // CORS issues mainly
         }
-        requestAnimationFrame(scanLoop);
-      };
-      
-      requestAnimationFrame(scanLoop);
+    });
+}
 
-    } catch (err) {
-      console.error("PhishGuard: Camera access denied", err);
-      alert("Camera access is required for manual QR scanning.");
+function handleQRResult(data) {
+    if (data.startsWith("upi://")) {
+        // We have the parser natively loaded before this script via manifest
+        if (typeof window.analyzeUPIString === 'function') {
+            window.analyzeUPIString(data).then(result => {
+                showToast(result);
+            });
+        }
+    } else if (data.startsWith("http")) {
+        chrome.runtime.sendMessage({type: "URL_SCAN_REQUEST", url: data}, response => {
+            if (response && response.risk_score > 70) {
+                showToast({ recommendation: "BLOCK", explanation: "Phishing URL detected in QR Code!" });
+            }
+        });
     }
-  };
+}
 
-  const closeOverlay = () => {
-    if (overlay) {
-      document.body.removeChild(overlay);
-      overlay = null;
+function showToast(result) {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.bottom = "20px";
+    overlay.style.right = "20px";
+    overlay.style.padding = "16px";
+    overlay.style.borderRadius = "8px";
+    overlay.style.color = "white";
+    overlay.style.zIndex = "999999";
+    overlay.style.maxWidth = "350px";
+    overlay.style.fontFamily = "sans-serif";
+    overlay.style.boxShadow = "0 10px 25px rgba(0,0,0,0.3)";
+    
+    let html = `<strong>🛡️ PhishGuard Alert</strong><br/>`;
+    
+    if (result.recommendation === "BLOCK") {
+        overlay.style.backgroundColor = "#ef4444";
+        overlay.style.left = "0"; overlay.style.right = "0"; overlay.style.top = "0"; overlay.style.bottom = "0";
+        overlay.style.maxWidth = "100%"; overlay.style.borderRadius = "0";
+        overlay.style.display = "flex"; overlay.style.flexDirection = "column"; overlay.style.justifyContent = "center"; overlay.style.alignItems = "center";
+        overlay.style.backgroundColor = "rgba(239, 68, 68, 0.95)";
+        
+        html = `<div style="text-align:center; max-width: 600px; padding: 40px; background: white; color: #1e293b; border-radius: 12px;">
+                    <h1 style="color: #ef4444; font-size: 32px; margin-bottom: 10px;">⚠️ STOP! SCAM DETECTED</h1>
+                    <p style="font-size: 18px;">${result.explanation}</p>
+                    <div style="margin-top:20px; font-weight: bold; background: #fee2e2; padding: 10px; border-radius: 6px;">Flags: ${result.flags?.join(", ")}</div>
+                    <button id="pg-close-btn" style="margin-top: 30px; background: #ef4444; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor:pointer;">I UNDERSTAND THE RISK. CONTINUE</button>
+                </div>`;
+    } else if (result.recommendation === "WARN") {
+        overlay.style.backgroundColor = "#f59e0b";
+        html += `<p style="margin-top:8px">${result.explanation}</p>`;
+    } else {
+        overlay.style.backgroundColor = "#22c55e";
+        html += `<p style="margin-top:8px">UPI QR Code verified safe!</p>`;
+        setTimeout(() => overlay.remove(), 4000);
     }
-    if (videoStream) {
-      videoStream.getTracks().forEach(track => track.stop());
-      videoStream = null;
+    
+    overlay.innerHTML = html;
+    document.body.appendChild(overlay);
+    
+    if (result.recommendation === "BLOCK") {
+        document.getElementById("pg-close-btn").addEventListener("click", () => overlay.remove());
     }
-  };
+}
 
-  const init = () => {
-    console.log("PhishGuard India: Content script active");
-    injectFloatingButton();
-    scanAllImages();
-    setInterval(scanAllImages, SCAN_INTERVAL);
-  };
+// Initial sweep
+setTimeout(processImages, 1500);
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
-})();
+// Add a floating manual scan button as requested by PRD
+function injectFloatButton() {
+    const btn = document.createElement("button");
+    btn.innerHTML = "🛡️ Scan QR";
+    btn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:99998; background:#1e293b; color:white; border:none; border-radius:30px; padding:10px 16px; font-weight:bold; cursor:pointer; box-shadow:0 4px 6px rgba(0,0,0,0.1);";
+    
+    btn.onclick = () => {
+        // Trigger file input or prompt for camera
+        alert("Camera scan coming in Phase 3.5! PhishGuard is natively scanning all images automatically on the page for now.");
+        processImages();
+    };
+    
+    document.body.appendChild(btn);
+}
 
+injectFloatButton();
