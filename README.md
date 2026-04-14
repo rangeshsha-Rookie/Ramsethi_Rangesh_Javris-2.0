@@ -24,6 +24,15 @@
 
 ---
 
+## 🚀 Quick Navigation
+*   **📦 Chrome Extension**: [Explore Manifest & Logic](./extension/)
+*   **🧠 ML Engine**: [View Training & ONNX Models](./ml-engine/)
+*   **☁️ Serverless APIs**: [Check Backend Handlers](./api/)
+*   **⛓️ Smart Contracts**: [Inspect Blockchain Registry](./blockchain/contracts/FraudRegistry.sol)
+*   **📄 Full Documentation**: [Read all PRDs and Guides](./docs/)
+
+---
+
 ## 🚨 The Problem
 
 In India, digital adoption has skyrocketed, and so has financial fraud. Every year, millions of users are tricked into losing their hard-earned money by:
