@@ -39,7 +39,10 @@ async function explainThreat(context) {
 
   // Fallback immediately if no API key
   if (!apiKey) {
-    return fallbacks[threatType]?.[language] || fallbacks["DEFAULT"][language];
+    return {
+      explanation: fallbacks[threatType]?.[language] || fallbacks["DEFAULT"][language],
+      source: "local"
+    };
   }
 
   const promptText = `Direct warning for ${language}: ${context.type} threat found in ${context.vpa || context.url}. Flags: ${context.flags}. One sentence urgency!`;
@@ -70,11 +73,16 @@ async function explainThreat(context) {
     const json = await response.json();
     const content = json.choices[0].message.content.trim();
     
-    // 8B model follows instructions much better, so we just return the cleaned content
-    return content || "Warning: Suspicious transaction detected. Proceed with caution.";
+    return {
+      explanation: content || "Warning: Suspicious transaction detected. Proceed with caution.",
+      source: "nvidia"
+    };
   } catch (err) {
     console.error("NVIDIA API failed, falling back to static strings:", err);
-    return fallbacks[threatType]?.[language] || fallbacks["DEFAULT"][language];
+    return {
+      explanation: fallbacks[threatType]?.[language] || fallbacks["DEFAULT"][language],
+      source: "local"
+    };
   }
 }
 

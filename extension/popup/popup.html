@@ -61,13 +61,14 @@
     <!-- TAB 4: SETTINGS -->
     <div id="tab-settings" class="tab-content">
         <div class="card">
-            <h3>API Settings</h3>
-            <p class="muted" style="font-size: 12px; margin-bottom: 10px;">Enter your NVIDIA API Key to enable human-like fraud explanations.</p>
+            <h3>AI Personalization</h3>
+            <p class="muted" style="font-size: 11px; margin-bottom: 12px;">Get human-friendly Hinglish explanations with NVIDIA Llama 3.1.</p>
             <div class="input-group">
                 <label>NVIDIA API Key:</label>
                 <input type="password" id="nvidia-api-key" placeholder="nvapi-..." class="mt-5" style="width: 100%; box-sizing: border-box;">
             </div>
-            <button id="btn-save-settings" class="btn mt-10" style="width: 100%;">Save Key</button>
+            <p class="mt-5" style="font-size: 10px;">Don't have a key? <a href="https://build.nvidia.com/nvidia/llama-3_1-nemotron-70b-instruct" target="_blank" style="color: var(--primary);">Get a free key at NVIDIA NIM</a></p>
+            <button id="btn-save-settings" class="btn mt-10" style="width: 100%;">Save & Enable AI</button>
             <p id="settings-status" class="mt-10 text-center hidden" style="font-size: 12px; color: var(--safe);"></p>
         </div>
     </div>

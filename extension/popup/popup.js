@@ -83,13 +83,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 type: result.flags[0] || "GENERAL",
                 vpa: result.parsed.pa,
                 flags: result.flags,
-                language: "hinglish" // could be made a setting later
+                language: "hinglish"
             }
         }, (aiRes) => {
+            const expEl = document.getElementById('upi-explanation');
             if (aiRes && aiRes.explanation) {
-                explanation.textContent = aiRes.explanation;
+                // Add a source badge
+                const sourceText = aiRes.source === "nvidia" ? "✨ NVIDIA AI Powered" : "🛡️ Local Smart Engine";
+                const sourceClass = aiRes.source === "nvidia" ? "bg-primary" : "bg-safe";
+                
+                expEl.innerHTML = `<div class="badge ${sourceClass} text-xs mb-5" style="font-size: 10px; opacity: 0.8;">${sourceText}</div><br/>${aiRes.explanation}`;
             } else {
-                explanation.textContent = result.explanation; // Fallback
+                expEl.textContent = result.explanation; // Fallback
             }
         });
 
