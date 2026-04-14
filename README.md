@@ -1,11 +1,25 @@
 <div align="center">
-  <img src="phishguard-india/extension/icons/icon128.png" alt="PhishGuard Logo" width="120" style="border-radius: 20px;"/>
+  <img src="assets/hero_banner.png" alt="PhishGuard Hero" width="100%" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"/>
+  <br/><br/>
   <h1>🛡️ PhishGuard India</h1>
-  <p><b>Proactive, Privacy-First Browser Extension to Detect URL Phishing and UPI QR Code Frauds natively on your device.</b></p>
+  <p><b>Proactive, AI-Powered Protection against UPI Frauds & URL Phishing natively on your device.</b></p>
   
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-  [![Made with XGBoost](https://img.shields.io/badge/AI-XGBoost-orange.svg)]()
-  [![Chrome Extension](https://img.shields.io/badge/Extension-Chrome-green.svg)]()
+  [![Made with NVIDIA NIM](https://img.shields.io/badge/AI-NVIDIA%20NIM-green.svg)]()
+  [![Chrome Extension](https://img.shields.io/badge/Extension-Chrome-blue.svg)]()
+</div>
+
+---
+
+## 📺 Project Demo & Visuals
+
+### 1. Centralized Threat Dashboard
+<img src="assets/dashboard_preview.png" alt="Dashboard Preview" width="100%" style="border-radius: 12px; border: 1px solid #333;"/>
+
+### 2. Intelligent UPI Analysis (Hinglish AI)
+<div align="center">
+  <img src="assets/scan_demo.png" alt="Scan Demo" width="45%" style="border-radius: 8px; margin-right: 2%;"/>
+  <img src="assets/main_ui.png" alt="Main UI" width="45%" style="border-radius: 8px;"/>
 </div>
 
 ---
