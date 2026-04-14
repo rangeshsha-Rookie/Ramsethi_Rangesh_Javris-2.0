@@ -24,21 +24,15 @@ try:
 except ImportError:
     def analyze_upi_qr(_upi_string):
         return {
-            "risk_score": 0,
-            "flags": [],
-            "recommendation": "SAFE",
-            "parsed": {},
+            "risk_score": 0, "flags": [], "recommendation": "SAFE", "parsed": {},
             "explanation": "UPI analyzer module not found."
         }
 
 # --- Dynamic Configuration ---
 def get_api_url():
-    # Priority: Streamlit Secrets -> Vercel Prod -> Localhost
     try:
-        if "API_URL" in st.secrets:
-            return st.secrets["API_URL"]
-    except:
-        pass
+        if "API_URL" in st.secrets: return st.secrets["API_URL"]
+    except: pass
     return "https://ramsethi-rangesh-javris-2-0.vercel.app"
 
 API_URL = get_api_url()
@@ -52,14 +46,10 @@ st.set_page_config(
 
 THEME = {
     "bg": "#0A0F1D",
-    "surface": "#131B33",
-    "surface_soft": "#1A2542",
-    "border": "#2D3E61",
-    "text": "#F3F4F6",
-    "muted": "#D1D5DB",
-    "safe": "#10B981",
-    "warn": "#F59E0B",
-    "block": "#EF4444",
+    "surface": "#1E293B",
+    "border": "#3B82F6",
+    "text": "#FFFFFF",
+    "muted": "#E5E7EB",
     "accent": "#3B82F6",
 }
 
@@ -68,71 +58,74 @@ st.markdown(
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-  :root {{
-    --pg-bg: {THEME['bg']};
-    --pg-surface: rgba(15, 23, 42, 0.8);
-    --pg-border: rgba(59, 130, 246, 0.4);
-    --pg-text: {THEME['text']};
-    --pg-muted: {THEME['muted']};
-    --pg-accent: {THEME['accent']};
-  }}
-
-  /* High Contrast Global Fix */
+  /* 1. FORCE GLOBAL VISIBILITY */
   html, body, [class*="st-"], .stApp {{ 
     font-family: 'Outfit', sans-serif !important; 
-    color: white !important; 
+    color: {THEME['text']} !important; 
   }}
+  
   .stApp {{ 
     background: radial-gradient(circle at top right, #0F172A, #050811); 
   }}
-  
-  /* Hero Component - Ultra High Contrast */
-  .pg-hero {{
-    border: 1px solid var(--pg-border);
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    border-radius: 16px; padding: 28px; margin-bottom: 24px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+
+  /* 2. SIDEBAR & NAVIGATION CONTRAST */
+  [data-testid="stSidebar"] {{ 
+    background-color: #0F172A !important; 
+    border-right: 1px solid rgba(59, 130, 246, 0.2); 
   }}
-  .pg-hero h1 {{ 
-    font-size: 34px !important; 
-    font-weight: 800 !important; 
+  [data-testid="stSidebar"] * {{ 
     color: white !important; 
-    margin: 0 !important; 
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  }}
-  .pg-hero p {{ 
-    font-size: 18px !important; 
-    color: var(--pg-muted) !important; 
-    margin-top: 10px !important; 
-    font-weight: 400 !important; 
   }}
   
-  /* Headers & Sidebar Readability */
-  h1, h2, h3, h4, h5, h6 {{ color: white !important; font-weight: 700 !important; }}
-  [data-testid="stSidebar"] {{ background-color: #0F172A !important; border-right: 1px solid var(--pg-border); }}
-  [data-testid="stSidebar"] .stMarkdown p {{ color: white !important; }}
+  /* 3. HERO & CONTAINER GLOW */
+  .pg-hero {{
+    border: 1px solid {THEME['border']};
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(15, 23, 42, 0.95) 100%);
+    backdrop-filter: blur(12px);
+    border-radius: 12px; padding: 30px; margin-bottom: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }}
+  .pg-hero h1 {{ font-size: 36px !important; font-weight: 800 !important; color: white !important; margin: 0; }}
+  .pg-hero p {{ font-size: 19px !important; color: {THEME['muted']} !important; margin-top: 12px !important; }}
+
+  /* 4. ALL HEADERS & TEXT ELEMENTS */
+  h1, h2, h3, h4, h5, h6, p, span, label, .stMarkdown {{ 
+    color: white !important; 
+  }}
   
-  .pg-status-pill {{
-    display: inline-block; border-radius: 999px; padding: 6px 14px;
-    font-weight: 700; font-size: 14px; margin: 10px 0;
-  }
-  .pg-safe {{ background: rgba(16, 185, 129, 0.2); color: #6EE7B7; border: 1px solid #10B981; }}
-  .pg-warn {{ background: rgba(245, 158, 11, 0.2); color: #FCD34D; border: 1px solid #F59E0B; }}
-  .pg-block {{ background: rgba(239, 68, 68, 0.2); color: #FCA5A5; border: 1px solid #EF4444; }}
-
-  .stButton > button {{ 
-    border-radius: 12px; background: #2563EB; color: white; width: 100%; 
-    border: none; font-weight: 600; padding: 10px; transition: all 0.3s ease;
-  }}
-  .stButton > button:hover {{ 
-    background: #3B82F6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); 
-    transform: translateY(-2px);
-  }}
-
-  /* Data Element Styling */
+  /* 5. DATA TABLES & DATAFRAMES */
   [data-testid="stDataFrame"] {{ 
-    background: var(--pg-surface); border-radius: 12px; border: 1px solid var(--pg-border); 
+    background: {THEME['surface']}; 
+    border-radius: 10px; 
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px;
+  }}
+  
+  /* 6. BUTTONS & INPUTS */
+  .stButton > button {{ 
+    border-radius: 8px; background: #2563EB; color: white !important; font-weight: 700; 
+    border: 1px solid #3B82F6; transition: 0.3s;
+  }}
+  .stButton > button:hover {{ transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4); }}
+  
+  input, textarea {{ 
+    background-color: #1E293B !important; 
+    color: white !important; 
+    border: 1px solid #3B82F6 !important; 
+  }}
+
+  /* 7. STATUS PILLS */
+  .pg-status-pill {{
+    display: inline-block; border-radius: 8px; padding: 8px 16px;
+    font-weight: 800; font-size: 14px; margin: 10px 0; border: 1px solid transparent;
+  }}
+  .pg-safe {{ background: rgba(16, 185, 129, 0.2); color: #10B981 !important; border-color: #10B981; }}
+  .pg-warn {{ background: rgba(245, 158, 11, 0.2); color: #F59E0B !important; border-color: #F59E0B; }}
+  .pg-block {{ background: rgba(239, 68, 68, 0.2); color: #EF4444 !important; border-color: #EF4444; }}
+
+  /* 8. PLOTLY CHART THEME FIX */
+  .main .plotly-graph-div {{
+    background-color: transparent !important;
   }}
 </style>
 """,
@@ -155,19 +148,20 @@ def radar_figure(score, verdict, title):
     categories = ["Lexical", "DOM/HTML", "Reputation", "Protocol", "Network"]
     values = [score * 0.8, (score > 40) * 70, (score > 70) * 90, 80 if score < 40 else 30, (score % 20) + 10]
     fig = go.Figure()
-    fig.add_trace(go.Scatterpolar(r=values, theta=categories, fill='toself', name='Threat Profile', line_color=THEME["accent"]))
+    fig.add_trace(go.Scatterpolar(r=values, theta=categories, fill='toself', name='Threat Profile', line_color="#3B82F6"))
     fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100], gridcolor="rgba(255,255,255,0.1)"), bgcolor="rgba(0,0,0,0)"),
-                      showlegend=False, paper_bgcolor="rgba(0,0,0,0)", font={"color": THEME["text"]}, title=title, margin=dict(t=40, b=40))
+                      showlegend=False, paper_bgcolor="rgba(0,0,0,0)", font={"color": "white", "size": 12}, title=dict(text=title, font=dict(color="white", size=18)), margin=dict(t=60, b=40))
     return fig
 
 def gauge_figure(score, verdict, title):
-    colors = {"SAFE": THEME["safe"], "WARN": THEME["warn"], "BLOCK": THEME["block"]}
-    color = colors.get(verdict, THEME["safe"])
-    fig = go.Figure(go.Indicator(mode="gauge+number", value=score, title={"text": title},
-                                gauge={"axis": {"range": [0, 100]}, "bar": {"color": color},
-                                       "steps": [{"range": [0, 39], "color": "rgba(34, 197, 94, 0.1)"},
-                                                 {"range": [40, 70], "color": "rgba(245, 158, 11, 0.1)"}]}))
-    fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={"color": THEME["text"]}, margin=dict(t=40, b=40))
+    colors = {"SAFE": "#10B981", "WARN": "#F59E0B", "BLOCK": "#EF4444"}
+    color = colors.get(verdict, "#10B981")
+    fig = go.Figure(go.Indicator(mode="gauge+number", value=score, title={"text": title, "font": {"color": "white", "size": 20}},
+                                gauge={"axis": {"range": [0, 100], "tickcolor": "white"}, "bar": {"color": color},
+                                       "steps": [{"range": [0, 40], "color": "rgba(16, 185, 129, 0.1)"},
+                                                 {"range": [40, 70], "color": "rgba(245, 158, 11, 0.1)"},
+                                                 {"range": [70, 100], "color": "rgba(239, 68, 68, 0.1)"}]}))
+    fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={"color": "white"}, margin=dict(t=60, b=40))
     return fig
 
 def render_hero(title, subtitle):
@@ -180,47 +174,49 @@ with st.sidebar:
     page = st.radio("Navigation", ["URL Scanner", "UPI QR Analyzer", "Analytics Dashboard", "Developer B2B SDK"])
 
 if page == "URL Scanner":
-    render_hero("Proprietary URL Scanner", "Analyze threats via the 17-feature Titan Engine.")
-    url = st.text_input("Enter URL", placeholder="https://secure-hdfc-kyc.com")
-    if st.button("Deep Scan"):
+    render_hero("Proprietary URL Scanner", "Deep forensic analysis via the 17-feature Titan Engine.")
+    url = st.text_input("Analyze URL", placeholder="https://secure-hdfc-kyc.com")
+    if st.button("Start Deep Scan"):
         score = sum(ord(c) for c in url) % 100
         verdict = "BLOCK" if score > 70 else ("WARN" if score > 35 else "SAFE")
-        st.markdown(f'<div class="pg-status-pill {verdict.lower().replace("block", "pg-block").replace("warn", "pg-warn").replace("safe", "pg-safe")}">Verdict: {verdict}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="pg-status-pill {verdict.lower().replace("block", "pg-block").replace("warn", "pg-warn").replace("safe", "pg-safe")}">VERDICT: {verdict}</div>', unsafe_allow_html=True)
         c1, c2 = st.columns(2)
-        with c1: st.plotly_chart(gauge_figure(score, verdict, "Risk Meter"), use_container_width=True)
-        with c2: st.plotly_chart(radar_figure(score, verdict, "Threat DNA"), use_container_width=True)
+        with c1: st.plotly_chart(gauge_figure(score, verdict, "Risk Severity"), use_container_width=True)
+        with c2: st.plotly_chart(radar_figure(score, verdict, "Threat DNA Profile"), use_container_width=True)
 
 elif page == "UPI QR Analyzer":
-    render_hero("UPI QR Analyzer", "Detect VPA mismatches and behavioral fraud patterns.")
-    upi = st.text_area("UPI String", "upi://pay?pa=scammer@ybl&pn=AmazonPay&am=49000")
-    if st.button("Verify QR"):
+    render_hero("UPI QR Analyzer", "Behavioral fraud detection and VPA reputation mapping.")
+    upi = st.text_area("UPI Intent String", "upi://pay?pa=scammer@ybl&pn=AmazonPay&am=49000")
+    if st.button("Verify UPI QR"):
         score = 85 if "49000" in upi else 20
         verdict = "BLOCK" if score > 70 else "SAFE"
-        st.markdown(f'<div class="pg-status-pill {verdict.lower().replace("block", "pg-block").replace("safe", "pg-safe")}">Verdict: {verdict}</div>', unsafe_allow_html=True)
-        st.plotly_chart(gauge_figure(score, verdict, "Fraud Risk"), use_container_width=True)
+        st.markdown(f'<div class="pg-status-pill {verdict.lower().replace("block", "pg-block").replace("safe", "pg-safe")}">VERDICT: {verdict}</div>', unsafe_allow_html=True)
+        st.plotly_chart(gauge_figure(score, verdict, "Transaction Risk"), use_container_width=True)
 
 elif page == "Analytics Dashboard":
-    render_hero("India Intelligence Hub", "Real-time threat heatmaps and blockchain ledger.")
-    st.markdown("### 🇮🇳 Fraud Hotspots (India)")
+    render_hero("India Intelligence Hub", "Real-time geospatial threat heatmaps and verifiable evidence.")
+    st.markdown("### 🇮🇳 Live Fraud Hotspots (India)")
     data = pd.DataFrame([get_india_city_coords(i) for i in range(20)], columns=["lat", "lon"])
     st.map(data)
 
-    st.markdown("### 🚨 Community Reports Feed")
+    st.markdown("### 🚨 Community Intelligence Feed")
     feed = pd.DataFrame({
         "Time": ["12:04", "11:55", "11:40"],
-        "Target": ["bazaar@sbi", "hdfc-secure.tk", "merchant@paytm"],
-        "Risk": ["HIGH", "CRITICAL", "LOW"],
-        "Evidence": ["View on PolygonScan"] * 3
+        "Threat Target": ["bazaar@sbi", "hdfc-secure.tk", "merchant@paytm"],
+        "Risk Level": ["HIGH", "CRITICAL", "LOW"],
+        "Evidence Verification": ["View on PolygonScan"] * 3
     })
     st.dataframe(feed, use_container_width=True)
 
 elif page == "Developer B2B SDK":
-    render_hero("Developer Hub", "Integrate the PhishGuard API into your checkout flow.")
-    st.markdown("### VPA Verification Snippet")
+    render_hero("Developer Hub", "Enterprise-grade API integration for zero-trust checkout flows.")
+    st.markdown("### VPA Threat Assessment (JavaScript SDK)")
     st.code("""
 async function checkVPA(vpa) {
     const res = await fetch(`https://phishguard.io/api/check-vpa?pa=${vpa}`);
     const { riskScore, recommendation } = await res.json();
-    if (recommendation === 'BLOCK') alert("🚨 Fraud Warning!");
+    if (recommendation === 'BLOCK') {
+        notifyUser("🚨 High-risk merchant detected!");
+    }
 }
     """, language="javascript")
