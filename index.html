@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard India | AI-Powered Cyber Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --danger: #ff4d4d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 40px;
+            text-align: center;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            color: #000;
+        }
+
+        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #ffffff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p { font-size: 1.2rem; color: #aaa; margin-bottom: 40px; line-height: 1.6; }
+
+        .btn-group { display: flex; gap: 20px; justify-content: center; }
+        .btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary { background: #fff; color: #000; }
+        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
+        .btn-outline { background: transparent; border: 1px solid #444; color: #fff; }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: #666; }
+
+        .api-status { margin-top: 50px; padding: 20px; border-radius: 15px; background: rgba(0,255,0,0.05); border: 1px solid rgba(0,255,0,0.1); display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .status-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">SECURE INDIA HACKATHON 2.0</span>
+        <h1>PhishGuard India</h1>
+        <p>Proactive, AI-Powered Protection against UPI Frauds & URL Phishing natively on your device. Secured by Polygon BlockChain and verified with NVIDIA NIM.</p>
+        
+        <div class="btn-group">
+            <a href="https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0" class="btn btn-primary" target="_blank">View Website Version on GitHub</a>
+            <a href="/api/check-vpa?pa=test@upi" class="btn btn-outline" target="_blank">Test Live API</a>
+        </div>
+
+        <div class="api-status">
+            <div class="status-dot"></div>
+            <span>Backend Systems are 100% Operational via Vercel Edge</span>
+        </div>
+    </div>
+</body>
+</html>
