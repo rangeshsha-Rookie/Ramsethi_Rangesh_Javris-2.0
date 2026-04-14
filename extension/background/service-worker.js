@@ -8,8 +8,8 @@ let scanStats = { totalScans: 0, fraudBlocked: 0, lastScan: null };
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "EXPLAIN_THREAT") {
         explainThreat(message.context)
-            .then(explanation => {
-                sendResponse({ explanation: explanation });
+            .then(result => {
+                sendResponse(result);
             })
             .catch(err => {
                 console.error("AI Explanation Error:", err);
