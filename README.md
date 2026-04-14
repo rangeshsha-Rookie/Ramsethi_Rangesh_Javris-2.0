@@ -26,7 +26,10 @@
 ### 1. Centralized Threat Dashboard
 <img src="assets/dashboard_preview.png" alt="Dashboard Preview" width="100%" style="border-radius: 12px; border: 1px solid #333;"/>
 
-### 2. Intelligent UPI Analysis (Hinglish AI)
+### 2. Live Demo: Real-Time AI Detection
+<img src="assets/demo_video.webp" alt="PhishGuard Live Demo" width="100%" style="border-radius: 12px; border: 1px solid #333; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"/>
+
+### 3. Intelligent UPI Analysis (Hinglish AI)
 <div align="center">
   <img src="assets/scan_demo.png" alt="Scan Demo" width="45%" style="border-radius: 8px; margin-right: 2%;"/>
   <img src="assets/main_ui.png" alt="Main UI" width="45%" style="border-radius: 8px;"/>
