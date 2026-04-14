@@ -38,6 +38,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
         return true; // Keep channel open for async
     } else if (message.type === "REPORT_FRAUD") {
+        // Live Sync: Global Community Reporting
+        const VERCEL_URL = "https://ramsethi-rangesh-javris-2-0.vercel.app";
+        fetch(VERCEL_URL + "/api/report-fraud", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                type: message.type_target || "UPI_FRAUD",
+                target: message.vpa || message.url,
+                evidence: message.evidence || "User Reported",
+                flags: ["COMMUNITY_REPORT"]
+            })
+        }).catch(err => console.error("Central Reporting Error:", err));
+
         fraudLog.unshift({
             vpa: message.vpa,
             url: message.url,

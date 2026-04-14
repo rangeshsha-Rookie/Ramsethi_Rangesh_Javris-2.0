@@ -60,7 +60,9 @@ async function analyzeUPIString(upiString) {
 
     try {
         // Strip out base to use standard URL API parsing safely
-        let queryString = upiString.replace("upi://pay", "http://localhost");
+        // Live Sync: Point to your production Vercel API
+        const VERCEL_URL = "https://ramsethi-rangesh-javris-2-0.vercel.app";
+        let queryString = upiString.replace("upi://pay", VERCEL_URL + "/api/check-vpa");
         let parsedUrl = new URL(queryString);
         
         let pa = (parsedUrl.searchParams.get("pa") || "").toLowerCase();
