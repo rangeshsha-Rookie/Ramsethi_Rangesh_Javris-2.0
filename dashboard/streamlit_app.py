@@ -25,7 +25,7 @@ except ImportError:
 # --- Configuration ---
 st.set_page_config(layout="wide", page_title="PhishGuard Intelligence", page_icon="🛡️")
 
-# Professional Color Palette (GitHub Dark Dimmed style)
+# Professional Color Palette
 COLORS = {
     "bg": "#0D1117",
     "surface": "#161B22",
@@ -38,64 +38,81 @@ COLORS = {
     "block": "#F85149",
 }
 
-# --- Style Engine (The Redesign System) ---
+# --- Style Engine (The Masterpiece Polish) ---
 st.markdown(f"""
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-  /* Global SOC Aesthetics */
+  /* Global Reset */
   html, body, [class*="st-"], .stApp {{ 
     font-family: 'Inter', sans-serif !important; 
     color: {COLORS['text_main']} !important; 
     background-color: {COLORS['bg']} !important;
   }}
   h1, h2, h3, h4, [data-testid="stMarkdownContainer"] h1 {{ font-family: 'Outfit', sans-serif !important; color: white !important; font-weight: 700 !important; }}
-  
-  /* Sidebar Restoration (Horizontal Branding) */
+
+  /* SIDEBAR REBIRTH (Premium Nav) */
   [data-testid="stSidebar"] {{ background-color: #010409 !important; border-right: 1px solid {COLORS['border']}; }}
-  .sidebar-header {{ display: flex; align-items: center; gap: 15px; margin-bottom: 2rem; }}
-  .sidebar-header img {{ height: 36px; }}
-  .brand-text {{ font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; color: white; line-height: 1; }}
-  .brand-sub {{ font-size: 0.75rem; color: #8B949E; margin-top: 2px; }}
-
-  /* Radio Button Visibility */
-  div[data-testid="stRadio"] label {{ color: white !important; font-weight: 500; }}
-  .st-at, .st-ae, .st-af, div[role="radiogroup"] label div[data-testid="stMarker"] {{ border: 2px solid {COLORS['accent']} !important; }}
-  div[role="radiogroup"] label[data-checked="true"] div[data-testid="stMarker"] {{ background-color: {COLORS['accent']} !important; box-shadow: 0 0 10px {COLORS['accent']} !important; }}
-
-  /* Pro-Tier Telemetry (KPI Strip) */
-  .kpi-container {{ display: flex; gap: 20px; margin-bottom: 1.5rem; }}
-  .kpi-card {{ 
-    flex: 1; background: #0D1117; border: 1px solid {COLORS['border']}; 
-    padding: 15px; border-radius: 8px; text-align: left; 
-  }}
-  .kpi-label {{ font-size: 0.75rem; color: #8B949E; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }}
-  .kpi-value {{ font-size: 1.25rem; font-weight: 700; color: white; margin-top: 4px; }}
-
-  /* Sovereign Alert State (Pulsing Hero) */
-  .pg-hero {{
-    border: 1px solid {COLORS['border']}; background-color: {COLORS['surface']};
-    border-radius: 12px; padding: 25px; margin-bottom: 2rem;
-    transition: 0.4s ease-in-out;
-  }}
-  .alert-pulse {{
-    border-color: {COLORS['block']} !important;
-    box-shadow: 0 0 0 1px {COLORS['block']}, 0 0 24px rgba(248,81,73,0.35) !important;
-    animation: alert-pulse-frames 1.4s ease-in-out infinite;
-  }}
-  @keyframes alert-pulse-frames {{
-    0%, 100% {{ box-shadow: 0 0 0 1px {COLORS['block']}, 0 0 18px rgba(248,81,73,0.25); }}
-    50%       {{ box-shadow: 0 0 0 2px {COLORS['block']}, 0 0 36px rgba(248,81,73,0.55); }}
-  }}
-
-  /* General Components */
-  input, textarea {{ background-color: #010409 !important; color: white !important; border: 1px solid {COLORS['border']} !important; }}
-  [data-testid="stCodeBlock"] {{ background-color: #010409 !important; border: 1px solid {COLORS['border']} !important; }}
-  code {{ font-family: 'JetBrains Mono', monospace !important; color: {COLORS['accent']} !important; }}
+  [data-testid="stSidebarNav"] {{ display: none !important; }} /* Hide default nav */
   
-  .v-badge {{ background: #23863622; color: #3FB950; border: 1px solid #3FB95044; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-left: 10px; }}
+  .sidebar-header {{ display: flex; align-items: center; gap: 12px; margin-bottom: 2.5rem; padding: 10px 5px; }}
+  .sidebar-header img {{ height: 32px; width: 32px; object-fit: contain; }}
+  .brand-text {{ font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 700; color: white; line-height: 1; }}
+  .brand-sub {{ font-size: 0.7rem; color: #8B949E; margin-top: 3px; letter-spacing: 0.2px; }}
+
+  /* PREMIUM RADIO TABBED NAV */
+  div[data-testid="stRadio"] {{ margin-top: -10px; }}
+  div[data-testid="stRadio"] > label {{ display: none !important; }} /* Hide widget label */
+  div[role="radiogroup"] {{ gap: 8px !important; }}
+  div[role="radiogroup"] label {{
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    padding: 10px 15px !important;
+    transition: 0.2s ease-in-out !important;
+    cursor: pointer !important;
+    width: 100% !important;
+  }}
+  div[role="radiogroup"] label:hover {{ background: rgba(88,166,255,0.05) !important; color: {COLORS['accent']} !important; }}
+  div[role="radiogroup"] label[data-checked="true"] {{
+    background: rgba(88,166,255,0.1) !important;
+    border: 1px solid {COLORS['accent']} !important;
+  }}
+  div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] p {{
+    color: {COLORS['text_main']} !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+  }}
+  div[role="radiogroup"] label[data-checked="true"] p {{ color: white !important; font-weight: 700 !important; }}
+  div[data-testid="stMarker"] {{ display: none !important; }} /* HIDE THE NATIVE CIRCLES */
+
+  /* KPI STRIP */
+  .kpi-container {{ display: flex; gap: 15px; margin-bottom: 2rem; }}
+  .kpi-card {{ 
+    flex: 1; min-width: 0; background: #0D1117; border: 1px solid {COLORS['border']}; 
+    padding: 16px; border-radius: 10px;
+  }}
+  .kpi-label {{ font-size: 0.72rem; color: #8B949E; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }}
+  .kpi-value {{ font-size: 1.3rem; font-weight: 800; color: white; margin-top: 5px; }}
+
+  /* SOVEREIGN HERO & ALERTS */
+  .pg-hero {{ border: 1px solid {COLORS['border']}; background-color: {COLORS['surface']}; border-radius: 12px; padding: 25px; margin-bottom: 2.5rem; }}
+  .alert-pulse {{ border-color: {COLORS['block']} !important; animation: alert-pulse-frames 1.5s ease-in-out infinite; }}
+  @keyframes alert-pulse-frames {{
+    0%, 100% {{ box-shadow: 0 0 0 1px {COLORS['block']}, 0 0 15px rgba(248,81,73,0.2); }}
+    50%       {{ box-shadow: 0 0 0 2px {COLORS['block']}, 0 0 35px rgba(248,81,73,0.45); }}
+  }}
+
+  /* EMPTY STATE INTEL BLOCKS */
+  .empty-state {{ border: 1px dashed {COLORS['border']}; border-radius: 12px; padding: 60px; text-align: center; color: #8B949E; }}
+  .empty-icon {{ font-size: 3rem; margin-bottom: 20px; color: {COLORS['border']}; opacity: 0.5; }}
+
+  /* General Inputs */
+  input {{ background-color: #010409 !important; color: white !important; border: 1px solid {COLORS['border']} !important; padding: 12px !important; }}
+  [data-testid="stCodeBlock"] {{ background-color: #010409 !important; border: 1px solid {COLORS['border']} !important; border-radius: 10px; }}
+  .v-badge {{ background: #23863622; color: #3FB950; border: 1px solid #3FB95044; padding: 2px 7px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; vertical-align: middle; margin-left: 8px; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -115,7 +132,7 @@ def gauge_figure(score, title):
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={"color": "white", "family": "Inter"}, height=280, margin=dict(t=60, b=40))
     return fig
 
-# --- UI Components ---
+# --- UI Layout Elements ---
 def render_kpi_strip(scans, velocity, health):
     st.markdown(f"""
     <div class="kpi-container">
@@ -130,63 +147,74 @@ def render_hero(title, subtitle, score=0):
     alert_class = "alert-pulse" if score > 80 else ""
     st.markdown(f"""
     <div class="pg-hero {alert_class}">
-        <h1 style="margin: 0; font-size: 2.2rem;">{title}</h1>
-        <p style="margin: 5px 0 0 0; color: {COLORS['text_main']};">{subtitle}</p>
+        <h1 style="margin: 0; font-size: 2.1rem; color: white;">{title}</h1>
+        <p style="margin: 8px 0 0 0; color: {COLORS['text_main']}; font-size: 1.05rem;">{subtitle}</p>
     </div>
     """, unsafe_allow_html=True)
 
-# --- Sidebar (Enterprise Branding) ---
+def render_empty_state(header, sub):
+    st.markdown(f"""
+    <div class="empty-state">
+        <div class="empty-icon">📡</div>
+        <h3 style="margin: 10px 0; color: {COLORS['text_bright']};">{header}</h3>
+        <p style="margin: 0; font-size: 0.9rem;">{sub}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# --- Sidebar (Premium Rebirth) ---
+logo_path = os.path.join(os.path.dirname(__file__), "pg_logo.png")
+icon_uri = "https://img.icons8.com/isometric/50/shield.png"
+
 with st.sidebar:
     st.markdown(f"""
     <div class="sidebar-header">
-        <img src="https://phishguard-india.streamlit.app/pg_logo.png" alt="logo" onerror="this.src='https://img.icons8.com/isometric/50/shield.png'">
+        <img src="{icon_uri}" alt="logo">
         <div>
-            <div class="brand-text">PhishGuard <span class="v-badge">v2.0 PRO</span></div>
+            <div class="brand-text">PhishGuard<span class="v-badge">v2.0 PRO</span></div>
             <div class="brand-sub">Intelligence Platform</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
     st.divider()
-    st.markdown("<p style='font-size: 0.8rem; font-weight: 700; color: #8B949E; margin-bottom: 10px;'>CENTRAL INTELLIGENCE</p>", unsafe_allow_html=True)
-    page = st.radio("Navigation", ["Network Forensic Hub", "UPI Fraud Analyzer", "Threat Intelligence Feed", "Enterprise API Docs"], label_visibility="collapsed")
+    st.markdown("<p style='font-size: 0.75rem; font-weight: 800; color: #8B949E; margin-bottom: 12px; letter-spacing: 1px;'>CENTRAL INTELLIGENCE</p>", unsafe_allow_html=True)
+    page = st.radio("Intelligence Modules", ["Network Forensic Hub", "UPI Fraud Analyzer", "Threat Intelligence Feed", "Enterprise API Docs"], label_visibility="collapsed")
 
 # --- App Modules ---
 if page == "Network Forensic Hub":
-    render_hero("Network Forensic Hub", "17-feature Titan Engine domain longevity and lexical analysis.")
+    render_hero("Network Forensic Hub", "Executing zero-trust domain analysis via the 17-feature Titan Engine.")
     render_kpi_strip(1284, 14, 99.8)
     
     url = st.text_input("Analyze Phishing Target", placeholder="https://secure-bank-login.net")
+    st.divider()
+    
     if url:
-        with st.spinner("Executing Forensic Trace..."):
-            time.sleep(1) # Simulated engine latency
+        with st.spinner("Analyzing Domain DNA..."):
+            time.sleep(1)
             score = sum(ord(c) for c in url) % 100
-            
-            # Tier 1: Execution Signals
             st.markdown(f"### FORENSICS │ SIGNAL TIER 1")
-            render_hero("Signal Analysis Complete", f"Verdict: {'BLOCK' if score > 80 else 'SAFE'} │ Confidence: 94.2%", score)
-            
-            # Tier 2: Forensic Canvas
+            render_hero("Threat Detection Signal Acquired", f"Signal Confidence: 94.2% │ Global Verdict: {'BLOCK' if score > 80 else 'SAFE'}", score)
             st.markdown(f"### FORENSICS │ SIGNAL TIER 2")
             c1, c2 = st.columns(2)
-            c1.plotly_chart(gauge_figure(score, "Risk Intensity Index"), use_container_width=True)
-            c2.plotly_chart(radar_figure(score, "Feature Entropy DNA"), use_container_width=True)
+            c1.plotly_chart(gauge_figure(score, "Risk Propensity"), use_container_width=True)
+            c2.plotly_chart(radar_figure(score, "Forensic DNA Matrix"), use_container_width=True)
+    else:
+        render_empty_state("Ready for Scan", "Input a target URL to initiate forensic domain inspection and Titan-17 profiling.")
 
 elif page == "UPI Fraud Analyzer":
     render_hero("UPI Fraud Analyzer", "Behavioral UPI reputation tracking and Indian VPA merchant trust.")
     render_kpi_strip(24531, 89, 97.4)
     
     vpa = st.text_input("Enter VPA / Payment URL", "upi://pay?pa=scammer@sbi&am=49999")
+    st.divider()
+    
     if vpa:
-        if st.button("Initialize Merchant Audit"):
-            score = 94 if "49" in vpa else 12
-            
-            # Tier 1: Reputation
-            st.markdown(f"### UPI ANALYTICS │ MERCHANT TIER 1")
-            render_hero(f"VPA: {'MALICIOUS' if score > 80 else 'TRUSTED'}", f"Entity: {vpa[:30]}... │ Signal Strength: HIGH", score)
-            
-            # Tier 2: Risk Canvas
-            st.markdown(f"### UPI ANALYTICS │ MERCHANT TIER 2")
-            st.plotly_chart(gauge_figure(score, "Transaction Risk Score"), use_container_width=True)
+        score = 94 if "49" in vpa else 12
+        st.markdown(f"### UPI ANALYTICS │ MERCHANT TIER 1")
+        render_hero(f"Entity: {'MALICIOUS' if score > 80 else 'TRUSTED'}", f"VPA: {vpa[:30]}... │ Forensic Evidence: SECURE", score)
+        st.markdown(f"### UPI ANALYTICS │ MERCHANT TIER 2")
+        st.plotly_chart(gauge_figure(score, "Transaction Risk Profile"), use_container_width=True)
+    else:
+        render_empty_state("Merchant Audit Ready", "Enter a VPA address to perform real-time behavioral fraud analysis.")
 
 elif page == "Threat Intelligence Feed":
     render_hero("Threat Intelligence", "Live geospatial fraud centroids and India-APAC corridor telemetry.")
@@ -206,9 +234,7 @@ elif page == "Threat Intelligence Feed":
 
 elif page == "Enterprise API Docs":
     render_hero("Enterprise B2B API", "Zero-trust verification for high-volume payment gateways and fintech stacks.")
-    
     st.markdown(f"### DOCUMENTATION │ INTEGRATION")
-    st.markdown("Integrate PhishGuard's 17-feature engine into your payment flow in seconds.")
     st.code("""
 const phishguard = require('@phishguard/sdk');
 
@@ -219,7 +245,6 @@ async function verify(intent) {
   }
 }
     """, language="javascript")
-    
     st.markdown(f"### DOCUMENTATION │ SCHEMAS")
     st.code("""
 {
