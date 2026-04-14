@@ -1,0 +1,19 @@
+{
+  "name": "phishguard-india",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PhishGuard India - phishing and UPI fraud detection",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "echo \"No linter configured yet\"",
+    "test": "echo \"No tests configured yet\""
+  },
+  "dependencies": {
+    "jsqr": "^1.4.0",
+    "onnxruntime-web": "^1.24.3"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.1"
+  }
+}
