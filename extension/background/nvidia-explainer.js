@@ -57,8 +57,14 @@ async function explainThreat(context) {
       body: JSON.stringify({
         model: "nvidia/llama-3.1-nemotron-nano-4b-v1.1",
         messages: [
-          { role: "system", content: "You are a cybersecurity expert. You must provide a 1-sentence warning in Hinglish. Be direct." },
-          { role: "user", content: `Threat: ${context.type} on ${context.vpa || context.url}. State the danger in one urgent Hinglish sentence.` }
+          { 
+            role: "system", 
+            content: "You are a cybersecurity expert. You must provide ONLY a 1-sentence warning in Hinglish. DO NOT think out loud. DO NOT provide internal reasoning. Output ONLY the final warning text." 
+          },
+          { 
+            role: "user", 
+            content: `Threat: ${context.type} on ${context.vpa || context.url}. State the danger in one urgent Hinglish sentence.` 
+          }
         ],
         temperature: 0.1,
         top_p: 0.7,
