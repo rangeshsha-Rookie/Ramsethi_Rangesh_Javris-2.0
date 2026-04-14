@@ -141,7 +141,7 @@ def render_hero(title, subtitle):
 
 # --- App Layout ---
 with st.sidebar:
-    st.image("pg_logo.png", width=120)
+    st.image(os.path.join(os.path.dirname(__file__), "pg_logo.png"), width=120)
     st.markdown("## PhishGuard India")
     page = st.radio("Navigation", ["URL Scanner", "UPI QR Analyzer", "Analytics Dashboard", "Developer B2B SDK"])
 
