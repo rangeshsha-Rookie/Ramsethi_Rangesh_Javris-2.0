@@ -74,14 +74,22 @@ st.markdown(f"""
 
   h1, h2, h3, h4 {{ color: #FFF !important; font-weight: 700 !important; margin-bottom: 1.2rem !important; }}
   
-  /* DARK EDITOR THEME for Code & Data */
-  code, pre, [data-testid="stCodeBlock"], [data-testid="stDataFrame"] {{
+  /* DARK EDITOR THEME - ULTRA CONTRAST OVERRIDE */
+  [data-testid="stCodeBlock"] {{
     background-color: #010409 !important;
     border: 1px solid {THEME['border']} !important;
     border-radius: 8px !important;
-    padding: 1.2rem !important;
   }}
-  code {{ font-family: 'JetBrains Mono', monospace !important; color: #79C0FF !important; }}
+  
+  /* Force syntax highlighting colors for deep readability */
+  code {{ font-family: 'JetBrains Mono', monospace !important; color: #E6EDF3 !important; }}
+  .stCodeBlock code span {{ color: #79C0FF !important; }} /* Global Tokens */
+  .stCodeBlock code .token.string {{ color: #7EE787 !important; }}
+  .stCodeBlock code .token.keyword {{ color: #FF7B72 !important; }}
+  .stCodeBlock code .token.function {{ color: #D2A8FF !important; }}
+  .stCodeBlock code .token.comment {{ color: #8B949E !important; }}
+  .stCodeBlock code .token.number {{ color: #79C0FF !important; }}
+  .stCodeBlock code .token.operator {{ color: #79C0FF !important; }}
   
   /* Professional Status Pills */
   .pg-pill {{
