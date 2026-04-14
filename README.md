@@ -85,7 +85,7 @@ Want to test PhishGuard on your machine?
 2. Open Google Chrome and type `chrome://extensions/` in the URL bar.
 3. Toggle **"Developer Mode"** ON in the top right corner.
 4. Click **"Load Unpacked"** in the top left corner.
-5. Select the `phishguard-india/extension/` folder in this repository.
+5. Select the `extension/` folder in this repository.
 
 **Test Case 1: The UI & Live URL Scanning**
 * Navigate to any website. Click the PhishGuard icon in your extension tray. It will analyze your current URL and visibly display your safety score.
@@ -97,11 +97,34 @@ Want to test PhishGuard on your machine?
 
 ---
 
+## 🚀 Live Advanced Modules
+
+### 📊 Phase 4: India Fraud Intelligence Dashboard
+We've built a real-time **Streamlit Dashboard** that visualizes threat data from our MongoDB registry.
+*   **Live Map**: Geospatial heatmaps of reported frauds across India.
+*   *Location:* [`/dashboard`](./dashboard/streamlit_app.py)
+
+### ⛓️ Phase 5: Polygon Blockchain Registry
+Implemented a decentralized fraud registry on **Polygon Amoy**.
+*   **Immutable Ledger**: Once a fraud is verified, it's logged via `FraudRegistry.sol`.
+*   *Location:* [`/blockchain`](./blockchain/contracts/FraudRegistry.sol)
+
+### 🧠 Phase 6: NVIDIA NIM AI Explainer
+Integrated **NVIDIA Llama 3.1** to provide human-friendly Hinglish warnings.
+*   *Location:* [`/extension/background/nvidia-explainer.js`](./extension/background/nvidia-explainer.js)
+
+### ☁️ Phase 7: Vercel Cloud Backend
+Serverless infrastructure for community fraud reporting.
+*   *Location:* [`/api`](./api/)
+
+---
+
 ## 🔮 Future Roadmap (Scaling Phase)
-While currently an offline extension, our architecture is designed to expand into a complete ecosystem:
-* **Phase 4 - Analytics Hub:** A Streamlit Dashboard enabling users to track real-time threat maps across India.
-* **Phase 5 - Polygon BlockChain Integration:** Implementing a zero-knowledge smart contract (`FraudRegistry.sol`) on Polygon Amoy. This enables decentralized, tamper-proof reporting of fraudulent VPAs so the entire network learns universally without centralized control.
-* **Phase 6 - Mobile SDK:** Decoupling the UPI Analyzer to be sold as a B2B SDK for payment providers like PhonePe or GPay.
+While PhishGuard India is now a complete full-stack solution, we are looking toward:
+*   **Mobile SDK Integration**: Selling the UPI Analyzer as a B2B SDK for payment providers.
+*   **Zero-Knowledge KYC**: Investigating privacy-preserving merchant onboarding.
+
+---
 
 <br/>
 <div align="center">
