@@ -129,8 +129,7 @@ def gauge_figure(score, title):
 # --- App Engine ---
 with st.sidebar:
     st.image(os.path.join(os.path.dirname(__file__), "pg_logo.png"), width=120)
-    st.markdown("<h2 style='text-align: center;'>PhishGuard</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #8B949E;'>Sovereign UPI Defense <br> `v2.0.0-PRO`</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #8B949E; margin-top: -10px;'>Sovereign UPI Defense <br> `v2.0.0-PRO`</p>", unsafe_allow_html=True)
     st.divider()
     page = st.radio("Intelligence Modules", ["Network Forensic Hub", "UPI Fraud Analyzer", "Threat Intelligence Feed", "Enterprise API Docs"])
 
