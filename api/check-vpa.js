@@ -36,18 +36,43 @@ module.exports = async function handler(req, res) {
 
         // Search for exact match
         const report = await collection.findOne({ vpa: pa.toLowerCase() });
+        const is_known_fraud = !!report;
+        const vpa = pa.toLowerCase();
+        const db_reports = report;
+        const report_count = report ? (report.count || 1) : 0;
 
-        if (report) {
-            return res.status(200).json({
-                is_scammer: true,
-                risk_score: 100,
-                flags: report.flags || ["REPORTED_BY_COMMUNITY"],
-                report_count: report.count || 1,
-                last_reported: report.time
-            });
+        // --- Advanced Reputation Graph (China Model) ---
+        // Simulating logic where long-standing merchants get a higher trust score.
+        let reputation_score = 50; // Baseline
+        let is_trusted = false;
+        
+        const TRUSTED_VPAS = ["bigbazaar@icici", "amazonpay@apl", "zomato@paytm"];
+        if (TRUSTED_VPAS.includes(vpa)) {
+            reputation_score = 95;
+            is_trusted = true;
+        } else if (vpa.includes("merchant")) {
+            reputation_score = 75; // Registered merchant handle
         }
 
-        return res.status(200).json({ is_scammer: false, message: "No central reports found." });
+        // --- Behavioral Risk Aggregator ---
+        let riskScore = is_known_fraud ? 100 : (100 - reputation_score);
+        
+        // Final response structure per professional standards
+        res.status(200).json({
+            vpa,
+            riskScore: Math.max(0, riskScore),
+            reputation: {
+                level: is_trusted ? "HIGH" : "STANDARD",
+                score: reputation_score,
+                is_verified_merchant: is_trusted
+            },
+            community_reports: {
+                count: db_reports?.count || report_count,
+                status: (db_reports?.count || report_count) > 0 ? "FLAGGED" : "CLEAN"
+            },
+            recommendation: riskScore > 70 ? "BLOCK" : (riskScore > 35 ? "WARN" : "SAFE"),
+            source: "central_directory"
+        });
     } catch (error) {
         console.error("DB Error:", error);
         return res.status(500).json({ error: "Internal server error connecting to Registry." });

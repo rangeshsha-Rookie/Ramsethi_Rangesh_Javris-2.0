@@ -5,7 +5,7 @@ console.log("PhishGuard: QR Scanner Active");
 
 function processImages() {
     const images = Array.from(document.querySelectorAll('img')).filter(img => 
-        img.naturalWidth > 50 && img. प्राकृतिकHeight > 50 && !img.dataset.phishguardScanned
+        img.naturalWidth > 50 && img.naturalHeight > 50 && !img.dataset.phishguardScanned
     );
 
     images.forEach(img => {

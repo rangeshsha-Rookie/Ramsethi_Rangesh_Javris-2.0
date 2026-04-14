@@ -53,49 +53,40 @@ async function analyzeUPIString(upiString) {
 
     if (!upiString.startsWith("upi://pay")) {
         result.flags.push("INVALID_URI");
-        result.recommendation = "BLOCK";
-        result.explanation = "This is not a valid UPI payment string.";
-        return result;
-    }
+    if (!upiString.startsWith("upi://")) return result;
 
     try {
-        // Strip out base to use standard URL API parsing safely
-        // Live Sync: Point to your production Vercel API
-        const VERCEL_URL = "https://ramsethi-rangesh-javris-2-0.vercel.app";
-        let queryString = upiString.replace("upi://pay", VERCEL_URL + "/api/check-vpa");
-        let parsedUrl = new URL(queryString);
+        const url = new URL(upiString);
+        const params = new URLSearchParams(url.search);
         
-        let pa = (parsedUrl.searchParams.get("pa") || "").toLowerCase();
-        let pn = parsedUrl.searchParams.get("pn") || "";
-        let am = parsedUrl.searchParams.get("am") || "0";
-        let cu = parsedUrl.searchParams.get("cu") || "INR";
+        result.parsed.pa = params.get("pa") || "";
+        result.parsed.pn = params.get("pn") || "";
+        result.parsed.am = params.get("am") || "";
 
-        result.parsed = { pa, pn, am, cu };
+        const pa = result.parsed.pa.toLowerCase();
+        const pn = result.parsed.pn.toLowerCase();
+        const amount = parseFloat(result.parsed.am || "0");
 
-        // CHECK 1: VPA Format Validation
-        const vpaRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z]+$/;
-        if (pa && !vpaRegex.test(pa)) {
-            result.risk_score += 40;
-            result.flags.push("INVALID_VPA_FORMAT");
+        // 🛡️ 1. VPA Syntax Integrity
+        const vpaRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z]{3,}$/;
+        if (!vpaRegex.test(pa)) {
+            result.flags.push("INVALID_VPA_SYNTAX");
+            result.risk_score += 45;
         }
 
-        // CHECK 2: Name vs VPA Mismatch
-        if (pn && pa) {
-            let handlePrefix = pa.split("@")[0];
-            let cleanPn = pn.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-            let cleanHandle = handlePrefix.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-            
-            // Substring or fuzzy. If handle is substring of name or name substring of handle, similarity is high.
-            if (!cleanPn.includes(cleanHandle) && !cleanHandle.includes(cleanPn)) {
-                let similarity = getSimilarity(cleanPn, cleanHandle);
-                if (similarity < 30) {
-                    result.risk_score += 35;
-                    result.flags.push("NAME_VPA_MISMATCH");
-                }
-            }
+        // 🇸🇬 2. Singapore Model: Behavioral Heuristics
+        // Threshold Evasion: Scammers use ₹45k-₹49.9k to stay under the ₹50k reporting radar.
+        if (amount >= 45000 && amount <= 49999) {
+            result.flags.push("THRESHOLD_EVASION_PATTERN");
+            result.risk_score += 30;
         }
 
-        // CHECK 3: Threshold Evasion Amount
+        // Micro-Bait: Using ₹1 as a "link verification" bait.
+        if (amount > 0 && amount <= 1.5) {
+            result.flags.push("MICRO_TRANSACTION_BAIT");
+            result.risk_score += 15;
+        }
+
         let amount = parseFloat(am);
         if (!isNaN(amount) && amount >= 45000 && amount <= 49999) {
             result.risk_score += 20;

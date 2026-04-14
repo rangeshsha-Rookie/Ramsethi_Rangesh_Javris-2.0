@@ -28,7 +28,8 @@
       "js": [
         "lib/jsQR.js",
         "content/upi-parser.js",
-        "content/qr-scanner.js"
+        "content/qr-scanner.js",
+        "content/content-analyzer.js"
       ],
       "run_at": "document_idle"
     }

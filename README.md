@@ -1,10 +1,13 @@
 <div align="center">
   <img src="assets/hero_banner.png" alt="PhishGuard Hero" width="100%" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"/>
   <br/><br/>
-  <h1>🛡️ PhishGuard India</h1>
-  <p><b>Proactive, AI-Powered Protection against UPI Frauds & URL Phishing natively on your device.</b></p>
+  <h1>🛡️ PhishGuard India: Proprietary UPI & Phishing Defense Engine</h1>
 
-  [**🌐 Visit Live Website**](https://ramsethi-rangesh-javris-2-0.vercel.app) | [**📜 Read Documentation**](./docs/) | [**📺 Watch Demo**](https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0)
+**The first intelligent, multi-layer security shield designed specifically for India's digital payment ecosystem.**
+
+PhishGuard India is a state-of-the-art cybersecurity platform that prevents UPI fraud and website phishing before they happen. Built with a proprietary **17-Feature "Titan" ML Engine** and **Cross-Border Behavioral Heuristics**, PhishGuard provides real-time protection where global tools like Google Safe Browsing often fail.
+
+[**🌐 Visit Live Website**](https://ramsethi-rangesh-javris-2-0.vercel.app) | [**📜 Read Documentation**](./docs/) | [**📺 Watch Demo**](https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0)
   
   <br/>
 
