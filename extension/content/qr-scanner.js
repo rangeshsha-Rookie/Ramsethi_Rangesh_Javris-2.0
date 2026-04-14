@@ -71,11 +71,25 @@ function showToast(result) {
         overlay.style.display = "flex"; overlay.style.flexDirection = "column"; overlay.style.justifyContent = "center"; overlay.style.alignItems = "center";
         overlay.style.backgroundColor = "rgba(239, 68, 68, 0.95)";
         
-        html = `<div style="text-align:center; max-width: 600px; padding: 40px; background: white; color: #1e293b; border-radius: 12px;">
+        html = `<div style="text-align:center; max-width: 600px; padding: 40px; background: white; color: #1e293b; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
                     <h1 style="color: #ef4444; font-size: 32px; margin-bottom: 10px;">⚠️ STOP! SCAM DETECTED</h1>
-                    <p style="font-size: 18px;">${result.explanation}</p>
-                    <div style="margin-top:20px; font-weight: bold; background: #fee2e2; padding: 10px; border-radius: 6px;">Flags: ${result.flags?.join(", ")}</div>
-                    <button id="pg-close-btn" style="margin-top: 30px; background: #ef4444; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor:pointer;">I UNDERSTAND THE RISK. CONTINUE</button>
+                    <p style="font-size: 18px; margin-bottom: 20px;">${result.explanation}</p>
+                    
+                    <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
+                        <a href="https://wa.me/?text=🚨 Alert! PhishGuard India just blocked a scam for me. Be careful with this link/QR: ${result.identifier || 'Suspicious Activity'}" 
+                           target="_blank" 
+                           style="background:#22c55e; color:white; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:8px;">
+                           📱 Warn Family on WhatsApp
+                        </a>
+                        <a href="https://amoy.polygonscan.com/address/0xb9e61465391ad1" 
+                           target="_blank" 
+                           style="background:#8247e5; color:white; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:8px;">
+                           ⛓️ View On-Chain Proof
+                        </a>
+                    </div>
+
+                    <div style="margin-top:20px; font-weight: bold; background: #fee2e2; padding: 10px; border-radius: 6px;">Fraud Flags: ${result.flags?.join(", ") || "IDENTITY_MISMATCH"}</div>
+                    <button id="pg-close-btn" style="margin-top: 30px; background: #64748b; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor:pointer;">I UNDERSTAND THE RISK. CONTINUE</button>
                 </div>`;
     } else if (result.recommendation === "WARN") {
         overlay.style.backgroundColor = "#f59e0b";
