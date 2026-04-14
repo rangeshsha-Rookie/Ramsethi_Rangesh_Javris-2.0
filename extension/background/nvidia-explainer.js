@@ -55,20 +55,20 @@ async function explainThreat(context) {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "nvidia/llama-3.1-nemotron-nano-4b-v1.1",
+        model: "meta/llama-3.1-8b-instruct",
         messages: [
           { 
             role: "system", 
-            content: "You are a cybersecurity expert. You must provide ONLY a 1-sentence warning in Hinglish. DO NOT think out loud. DO NOT provide internal reasoning. Output ONLY the final warning text." 
+            content: "You are a cybersecurity expert. Output ONLY a 1-sentence warning in Hinglish. NO intro. NO reasoning. NO chat. START DIRECTLY with the warning text." 
           },
           { 
             role: "user", 
-            content: `Threat: ${context.type} on ${context.vpa || context.url}. State the danger in one urgent Hinglish sentence.` 
+            content: `Threat: ${context.type} flags on ${context.vpa || context.url}. State the danger in one urgent Hinglish sentence.` 
           }
         ],
         temperature: 0.1,
         top_p: 0.7,
-        max_tokens: 512
+        max_tokens: 60
       })
     });
 
