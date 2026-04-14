@@ -4,7 +4,7 @@
 
 PhishGuard India is a state-of-the-art cybersecurity platform built to prevent financial fraud before it hits the user's wallet. Powered by a proprietary **17-Feature "Titan" Engine** and **Cross-Border Behavioral Heuristics**, PhishGuard provides real-time, privacy-first protection where global giants fail.
 
-[**🌐 Live Platform**](https://ramsethi-rangesh-javris-2-0.vercel.app) | [**📜 Security Whitepaper**](./docs/) | [**📺 Full Product Demo**](https://github.com/rangeshsha-Rookie/Ramsethi_Rangesh_Javris-2.0)
+[**🛡️ Landing Page**](https://ramsethi-rangesh-javris-2-0.vercel.app) | [**📊 Intelligence Dashboard**](https://phishguard-india.streamlit.app/) | [**📜 Security Whitepaper**](./docs/)
 
 ---
 

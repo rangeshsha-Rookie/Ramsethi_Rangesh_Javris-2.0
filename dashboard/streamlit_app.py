@@ -31,6 +31,18 @@ except ImportError:
             "explanation": "UPI analyzer module not found."
         }
 
+# --- Dynamic Configuration ---
+def get_api_url():
+    # Priority: Streamlit Secrets -> Vercel Prod -> Localhost
+    try:
+        if "API_URL" in st.secrets:
+            return st.secrets["API_URL"]
+    except:
+        pass
+    return "https://ramsethi-rangesh-javris-2-0.vercel.app"
+
+API_URL = get_api_url()
+
 st.set_page_config(
     layout="wide",
     page_title="PhishGuard India Master Dashboard",
