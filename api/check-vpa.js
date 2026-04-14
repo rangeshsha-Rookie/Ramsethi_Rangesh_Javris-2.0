@@ -4,17 +4,23 @@
  */
 const { MongoClient } = require('mongodb');
 
+let cachedClient = null;
 let cachedDb = null;
 
 async function connectToDatabase() {
-    if (cachedDb) return cachedDb;
+    if (cachedDb && cachedClient) return { client: cachedClient, db: cachedDb };
+
     if (!process.env.MONGODB_URI) {
         throw new Error("MONGODB_URI is not defined");
     }
-    const client = await MongoClient.connect(process.env.MONGODB_URI);
+
+    const client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
     const db = client.db('phishguard');
+
+    cachedClient = client;
     cachedDb = db;
-    return db;
+    return { client, db };
 }
 
 module.exports = async function handler(req, res) {
@@ -25,7 +31,7 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-        const db = await connectToDatabase();
+        const { db } = await connectToDatabase();
         const collection = db.collection('fraud_reports');
 
         // Search for exact match
